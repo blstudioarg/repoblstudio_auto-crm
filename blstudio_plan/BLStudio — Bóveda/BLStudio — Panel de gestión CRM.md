@@ -763,6 +763,28 @@ Semana 3
 
 ---
 
+## Ideas de mejora (backlog post-v1)
+
+> Estas ideas vienen de un carrusel de referencia (@ramiro.cubria — "tablero de contenido para creadores" con Claude Code). **NO entran en v1** y **no modifican el stack**: el panel sigue siendo Laravel 12 API + React 18/Vite/Tailwind v4 + Supabase. Los prompts del carrusel que mencionan Next.js/shadcn se adaptan a React/Vite. Son mejoras para el tab **Contenido** (motor de contenido de la propia marca BLStudio), a evaluar una vez que v1 esté funcionando.
+
+### Cherry-picks de bajo costo (candidatos a v1.1)
+
+| Idea | Qué aporta | Dónde encaja | Costo |
+|---|---|---|---|
+| **Baúl de Ganchos** | Biblioteca de ganchos reusables: cada gancho guardado queda como plantilla, buscable por nicho, tipo de gancho y vistas. Botón "usar este" precarga `posts.hook`. | Nueva tabla `hooks` (`text`, `tipo`, `nicho`, `fuente`, `vistas`, `plantilla`). Sub-vista en tab Contenido. | Bajo |
+| **Métricas de posts** | Vistas IG, guardados, seguidores nuevos, DMs con minigráfico a 7/30/90 días. Marca "bombazo" al reel que duplica la mediana de 30 días; top 5 con el porqué. | Extender `posts` (o tabla `post_metrics`) con `views/saves/followers/dms`. Cards en Cockpit o sub-tab en Contenido. | Bajo-medio |
+| **Calendario con detalle lateral** | Click en un casillero del calendario → panel lateral con el guión completo (fecha, hora, plataforma, gancho, copy). | Mejora de UX sobre `Contenido.jsx` + `PostApproveModal.jsx` ya planeados. Casi cubierto por el brief. | Muy bajo |
+
+### Backlog pesado (requiere automatización/scraping — post-v1)
+
+| Idea | Qué aporta | Dónde encaja | Costo |
+|---|---|---|---|
+| **Rastreador de Competencia** | Domingos AM levanta los 5 reels más vistos de N cuentas; transcribe audio y extrae gancho + texto en pantalla. Botón "guardar al Baúl". | Workflow n8n + transcripción. Tabla `competitor_reels`. Depende del Baúl de Ganchos. | Alto |
+| **Community Manager multiplataforma** | Un clic publica el reel en IG + TikTok + YT Shorts con descripción autogenerada (gancho + ángulo + CTA). | Extender la publicación n8n (hoy el brief solo cubre IG). **Scope creep — diferir.** | Alto |
+| **Tendencias** | Revisa ~12 fuentes IA/día (blogs Anthropic/OpenAI, listas de X, nicho), etiqueta cada item (potencial de gancho / explicativo / ignorar) y manda resumen por Slack 7 AM. | Agente/automatización independiente del CRM. Tabla `trends`. | Alto |
+
+---
+
 ## Conexiones (bóveda)
 
 [[BLStudio — Plan estratégico gastronomía]] · [[BLStudio — PROJECT BRIEF]] · [[BLStudio — Plan de desarrollo sistema IG automatizado]] · [[BLStudio — Narrativa IG julio 2026]]

@@ -1,5 +1,5 @@
 {
-  "name": "BLStudio — Trigger semanal (Fase 7)",
+  "name": "BLStudio — Autopilot semanal (Fase 7)",
   "nodes": [
     {
       "parameters": {
@@ -18,65 +18,138 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "p1",
-              "name": "plan",
-              "value": "Generar los 3 posts de la semana siguiente del calendario julio-2026.json, dejarlos en content/queue/ para revisión, y avisar a Juan.",
-              "type": "string"
-            },
-            {
-              "id": "p2",
-              "name": "next_week_start",
-              "value": "={{ $now.plus({ days: 1 }).toFormat('yyyy-MM-dd') }}",
-              "type": "string"
-            }
+        "method": "GET",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/posts",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "select", "value": "dia_narrativo,semana,arc,date" },
+            { "name": "order", "value": "dia_narrativo.desc" },
+            { "name": "limit", "value": "1" }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $env.SUPABASE_SECRET }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $env.SUPABASE_SECRET }}" }
           ]
         },
         "options": {}
       },
-      "id": "set-plan",
-      "name": "Plan de la semana",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
+      "id": "read-last-post",
+      "name": "Leer último post",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [400, 320],
-      "notes": "Scaffold. Conectar acá la generación (webhook a Cowork/Claude o lectura de la queue ya preparada)."
+      "notes": "Lee el post más reciente para continuar la numeración (dia_narrativo) y el ciclo de arco/semana. Requiere que la tabla posts tenga al menos 1 fila (el seed de la narrativa de julio 2026)."
     },
     {
       "parameters": {
-        "content": "## Fase 7 — qué completar\n\nEste workflow es el esqueleto del autopilot semanal. Para completarlo:\n\n1. **Generar contenido**: reemplazar/extender 'Plan de la semana' con un webhook que dispare la generación en Cowork/Claude, o que lea los posts ya preparados en `content/queue/`.\n2. **Notificar a Juan**: agregar un nodo (Email / WhatsApp / Telegram) que le avise que hay posts para revisar.\n3. **Esperar aprobación**: un nodo Wait con webhook (Juan aprueba desde un link).\n4. **Publicar**: al aprobar, llamar a los workflows de imagen / carrusel / reel con los horarios del calendario (o usar 'Execute Workflow').\n5. **Escribir estado**: actualizar el status a 'published' en la queue / Supabase (CRM).",
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Calcula los 3 posts de la próxima semana (Lun=Historia, Mié=Carrusel, Vie=Reel)\n// y construye el prompt para Claude, siguiendo content-strategy.md y master-copy-prompt.md.\nconst raw = $input.first().json;\nconst arr = Array.isArray(raw) ? raw : (raw && raw.data ? raw.data : (raw ? [raw] : []));\nconst last = arr[0];\nconst lastDia = last ? Number(last.dia_narrativo) : 0;\nconst lastWeek = last ? Number(last.semana) : 0;\n\nconst ARCS = ['problema', 'realidad', 'solucion', 'prueba'];\nconst nextWeek = lastWeek ? (lastWeek % 4) + 1 : 1;\nconst arc = ARCS[(nextWeek - 1) % 4];\nconst isOddWeek = nextWeek % 2 === 1;\n\n// Próximo lunes a partir de hoy (el trigger corre el domingo 20:00 -> al día siguiente).\nconst now = new Date();\nconst monday = new Date(now);\nmonday.setDate(now.getDate() + ((1 + 7 - now.getDay()) % 7 || 7));\nconst iso = (d) => d.toISOString().slice(0, 10);\nconst wednesday = new Date(monday); wednesday.setDate(monday.getDate() + 2);\nconst friday = new Date(monday); friday.setDate(monday.getDate() + 4);\n\nconst slots = [\n  { date: iso(monday), day_label: 'Lunes', format: 'Historia', pilar: isOddWeek ? 1 : 2, dia_narrativo: lastDia + 1, semana: nextWeek, arc },\n  { date: iso(wednesday), day_label: 'Miércoles', format: 'Carrusel', pilar: isOddWeek ? 4 : 1, dia_narrativo: lastDia + 2, semana: nextWeek, arc },\n  { date: iso(friday), day_label: 'Viernes', format: 'Reel', pilar: isOddWeek ? 5 : 3, dia_narrativo: lastDia + 3, semana: nextWeek, arc },\n];\n\nconst PILAR_LABEL = {\n  1: 'P1 — SEO/Google: si no aparecés en Google, no existís',\n  2: 'P2 — Organización: organización = tiempo = libertad',\n  3: 'P3 — Fidelización: el cliente que vuelve > el que viene una vez',\n  4: 'P4 — Errores comunes: situaciones donde el dueño se reconoce',\n  5: 'P5 — Casos reales: Tcocina, Doña Clara, La Ventera',\n};\nconst ARC_LABEL = {\n  problema: 'El problema (que el dueño se reconozca en su dolor)',\n  realidad: 'La realidad (consecuencias de no resolverlo)',\n  solucion: 'La solución (cómo BLStudio lo resuelve)',\n  prueba: 'La prueba + cierre (casos reales + CTA)',\n};\n\nconst systemPrompt = `Sos el redactor de BLStudio (@blstudioarg2026), un sistema de gestión para negocios gastronómicos en Argentina.\n\nCONTEXTO DE MARCA\n- Tono: aliado directo, argentino, de igual a igual, sin chamuyo técnico, sin humo.\n- Evitar: \"diseño web\", \"stack\", \"framework\", \"solución tecnológica\", \"gurú\".\n- Usar: sistema, pedidos, clientes, plata, que funciona.\n- A quién le habla: dueño de hamburguesería / casa de comidas en Argentina. Dolores: no aparece en Google, pedidos por WhatsApp (caos), no fideliza, miedo a lo digital.\n\nREGLAS DE COPY\n- SIN nombres propios de personas. A los dueños se los nombra por rol (\"el dueño\", \"la dueña\") o por el negocio (Tcocina, Doña Clara, La Ventera). Los negocios sí se nombran.\n- Hook directo en la primera línea, que el dueño se reconozca o se frene a leer.\n- 1 idea por pieza. Sin relleno. Frases cortas.\n- Ejemplos reales > teoría: Tcocina (150 pedidos un domingo sin errores), Doña Clara (rotisería de 20 años digitalizada en 2 semanas, $2M ARS), aceitelaventera.com (primero en Google).\n- CTA simple al final: \"¿Querés esto para tu negocio? Respondé esta historia / mandá MD\". Sin formularios.\n- Caption: 4-8 líneas. Para Carrusel/Reel sumar slide_texts (array de strings, uno por slide/escena).\n- Hashtags: 5-8, mezcla de rubro + ubicación + tema.\n\nDevolvé EXCLUSIVAMENTE un JSON array de 3 objetos (sin texto antes ni después), uno por cada post solicitado, con este shape exacto:\n[{ \"topic\": \"...\", \"hook\": \"...\", \"caption\": \"...\", \"slide_texts\": [\"...\"], \"hashtags\": [\"#...\"], \"visual_brief\": \"...\" }]`;\n\nconst userPrompt = `Generá los 3 posts de la próxima semana (semana ${nextWeek} del ciclo, arco: ${ARC_LABEL[arc]}).\\n\\n` +\n  slots.map((s, i) => `Post ${i + 1} — ${s.day_label} ${s.date} — formato ${s.format} — ${PILAR_LABEL[s.pilar]}`).join('\\n');\n\nreturn [{\n  json: {\n    anthropic_request: {\n      model: $env.ANTHROPIC_MODEL || 'claude-sonnet-4-6',\n      max_tokens: 2048,\n      system: systemPrompt,\n      messages: [{ role: 'user', content: userPrompt }],\n    },\n    slots,\n  },\n}];"
+      },
+      "id": "compute-next-week",
+      "name": "Calcular próxima semana",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [640, 320],
+      "notes": "Rota arco (problema→realidad→solución→prueba) y pilar cada 4 semanas, siguiendo la cadencia de docs/content-strategy.md. Construye el prompt para Claude con la voz de marca de content/prompts/master-copy-prompt.md."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "x-api-key", "value": "={{ $env.ANTHROPIC_API_KEY }}" },
+            { "name": "anthropic-version", "value": "2023-06-01" }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={{ $json.anthropic_request }}",
+        "options": {}
+      },
+      "id": "call-claude",
+      "name": "Generar copy con Claude",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [880, 320],
+      "notes": "Requiere la variable de entorno ANTHROPIC_API_KEY. ANTHROPIC_MODEL es opcional (default claude-sonnet-4-6) — ajustar al modelo vigente al momento de correr esto."
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Parsea la respuesta de Claude (array JSON de 3 posts) y la combina con los\n// campos estructurales calculados en 'Calcular próxima semana'.\nconst response = $input.first().json;\nconst text = (response.content || []).map(c => c.text || '').join('');\n\nlet generated = [];\ntry {\n  generated = JSON.parse(text);\n} catch (e) {\n  const match = text.match(/\\[[\\s\\S]*\\]/);\n  if (match) { try { generated = JSON.parse(match[0]); } catch (e2) { generated = []; } }\n}\n\nconst slots = $('Calcular próxima semana').first().json.slots;\n\nconst rows = slots.map((slot, i) => {\n  const g = generated[i] || {};\n  return {\n    date: slot.date,\n    dia_narrativo: slot.dia_narrativo,\n    semana: slot.semana,\n    arc: slot.arc,\n    format: slot.format,\n    pilar: slot.pilar,\n    topic: g.topic || slot.day_label,\n    hook: g.hook || '',\n    caption: g.caption || '',\n    slide_texts: g.slide_texts || null,\n    hashtags: g.hashtags || null,\n    visual_brief: g.visual_brief || null,\n    status: 'copy_ready',\n  };\n});\n\nreturn [{ json: { rows } }];"
+      },
+      "id": "build-posts",
+      "name": "Armar posts completos",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1120, 320],
+      "notes": "Si Claude no devuelve JSON parseable, los posts quedan con caption/hook vacíos y status copy_ready igual — se ven en el panel para completar a mano."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/posts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $env.SUPABASE_SECRET }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $env.SUPABASE_SECRET }}" },
+            { "name": "Prefer", "value": "return=representation" }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={{ $json.rows }}",
+        "options": {}
+      },
+      "id": "insert-posts",
+      "name": "Insertar en Supabase",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1360, 320],
+      "notes": "Inserta los 3 posts directo en la tabla posts (PostgREST + service_role key, bypassa RLS). Quedan con status='copy_ready' — aparecen en Cockpit/Contenido para aprobar manualmente. Sin notificación externa (decisión: por ahora se revisa entrando al panel)."
+    },
+    {
+      "parameters": {
+        "content": "## Fase 7 — Autopilot semanal\n\n**Decisiones de producto ya tomadas:**\n1. Generación de contenido: con IA (Claude), siguiendo la voz de marca de `content/prompts/master-copy-prompt.md` y los pilares de `docs/content-strategy.md`.\n2. Notificación: ninguna por ahora — se revisa entrando al panel (Cockpit ya muestra \"Esperando tu aprobación\").\n3. Aprobación: manual, desde el panel (botón Aprobar ya implementado en Cockpit/Contenido).\n\n**Variables de entorno requeridas:**\n- `ANTHROPIC_API_KEY` (y opcional `ANTHROPIC_MODEL`)\n- `SUPABASE_URL`, `SUPABASE_SECRET` (service_role key — mismas que usa el resto de los workflows)\n\n**Pendiente real:** correr esto una vez en modo manual (Execute workflow) antes de confiar en el cron, revisar que el copy de Claude suene bien, y recién ahí dejarlo corriendo solo los domingos.",
         "height": 320,
         "width": 460
       },
       "id": "sticky-note",
-      "name": "TODO Fase 7",
+      "name": "Notas Fase 7",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
-      "position": [640, 200]
-    },
-    {
-      "parameters": {},
-      "id": "noop-end",
-      "name": "Pendiente: conectar generación + notificación",
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [400, 540]
+      "position": [400, 560]
     }
   ],
   "connections": {
     "Domingos 20:00": {
-      "main": [[{ "node": "Plan de la semana", "type": "main", "index": 0 }]]
+      "main": [[{ "node": "Leer último post", "type": "main", "index": 0 }]]
     },
-    "Plan de la semana": {
-      "main": [[{ "node": "Pendiente: conectar generación + notificación", "type": "main", "index": 0 }]]
+    "Leer último post": {
+      "main": [[{ "node": "Calcular próxima semana", "type": "main", "index": 0 }]]
+    },
+    "Calcular próxima semana": {
+      "main": [[{ "node": "Generar copy con Claude", "type": "main", "index": 0 }]]
+    },
+    "Generar copy con Claude": {
+      "main": [[{ "node": "Armar posts completos", "type": "main", "index": 0 }]]
+    },
+    "Armar posts completos": {
+      "main": [[{ "node": "Insertar en Supabase", "type": "main", "index": 0 }]]
     }
   },
   "settings": {
     "executionOrder": "v1"
   },
   "meta": {
-    "description": "BLStudio — Fase 7. Esqueleto del trigger automático semanal (domingos 20:00). Pendiente conectar generación, notificación y publicación."
+    "description": "BLStudio — Fase 7. Autopilot semanal: domingos 20:00 lee el último post, calcula la semana siguiente (arco/pilar rotando), genera el copy de 3 posts con Claude en la voz de marca, y los inserta en Supabase como copy_ready para aprobación manual en el panel."
   },
   "pinData": {}
 }

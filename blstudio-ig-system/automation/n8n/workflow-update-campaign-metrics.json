@@ -1,0 +1,137 @@
+{
+  "name": "BLStudio — Métricas de campaña → CRM (diario)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            { "field": "cronExpression", "expression": "0 7 * * *" }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Todos los días 07:00",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [180, 320],
+      "notes": "Corre una vez por día. Ajustar horario según necesidad."
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "campaign_id",
+              "value": "REEMPLAZAR-con-uuid-de-la-tabla-campaigns",
+              "type": "string"
+            },
+            {
+              "id": "a2",
+              "name": "meta_campaign_id",
+              "value": "REEMPLAZAR-con-el-id-de-campana-en-Meta",
+              "type": "string"
+            },
+            {
+              "id": "atok",
+              "name": "access_token",
+              "value": "PEGA_TU_TOKEN_DE_60_DIAS_ACA",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-campaign",
+      "name": "Campaña a sincronizar",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [400, 320],
+      "notes": "Para más de una campaña activa, duplicar esta rama o reemplazar por un nodo que liste las campañas con status='active' desde Supabase."
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://graph.facebook.com/v21.0/{{ $json.meta_campaign_id }}/insights",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "fields",
+              "value": "spend,reach,impressions,clicks,actions"
+            },
+            {
+              "name": "access_token",
+              "value": "={{ $json.access_token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fetch-insights",
+      "name": "Meta Insights API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [640, 320],
+      "notes": "Devuelve spend/reach/impressions/clicks. 'actions' incluye leads y mensajes (DMs) si el pixel/conversion tracking está configurado."
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const insight = ($input.first().json.data || [])[0] || {};\nconst actions = insight.actions || [];\nconst findAction = (type) => Number((actions.find(a => a.action_type === type) || {}).value || 0);\n\nconst spent = Number(insight.spend || 0);\nconst leads = findAction('lead') || findAction('onsite_conversion.lead_grouped');\nconst dms = findAction('onsite_conversion.messaging_conversation_started_7d');\nconst cpl = leads ? Number((spent / leads).toFixed(2)) : null;\n\nreturn [{ json: {\n  campaign_id: $('Campaña a sincronizar').first().json.campaign_id,\n  spent,\n  reach: Number(insight.reach || 0),\n  impressions: Number(insight.impressions || 0),\n  clicks: Number(insight.clicks || 0),\n  dms,\n  leads,\n  cpl,\n} }];"
+      },
+      "id": "map-metrics",
+      "name": "Mapear métricas",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [880, 320],
+      "notes": "Traduce la respuesta de Meta Insights al shape que espera el webhook de campaign-metrics."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.BLSTUDIO_API_URL }}/api/webhooks/campaign-metrics",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Webhook-Secret",
+              "value": "={{ $env.BLSTUDIO_WEBHOOK_SECRET }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={{ $json }}",
+        "options": {}
+      },
+      "id": "write-metrics-crm",
+      "name": "Escribir métricas en CRM",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1120, 320],
+      "notes": "PUT lógico vía POST /api/webhooks/campaign-metrics. Requiere BLSTUDIO_API_URL y BLSTUDIO_WEBHOOK_SECRET (= SUPABASE_SECRET del backend)."
+    }
+  ],
+  "connections": {
+    "Todos los días 07:00": {
+      "main": [[{ "node": "Campaña a sincronizar", "type": "main", "index": 0 }]]
+    },
+    "Campaña a sincronizar": {
+      "main": [[{ "node": "Meta Insights API", "type": "main", "index": 0 }]]
+    },
+    "Meta Insights API": {
+      "main": [[{ "node": "Mapear métricas", "type": "main", "index": 0 }]]
+    },
+    "Mapear métricas": {
+      "main": [[{ "node": "Escribir métricas en CRM", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "description": "BLStudio — Fase 7. Trae métricas diarias de Meta Insights API para una campaña y las escribe en la tabla campaigns del CRM vía webhook."
+  },
+  "pinData": {}
+}

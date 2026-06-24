@@ -74,6 +74,34 @@
         320
       ],
       "notes": "Usa data.access_token. Crea N containers hijos + padre CAROUSEL + publish en una sola corrida."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.BLSTUDIO_API_URL }}/api/webhooks/post-published",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Webhook-Secret",
+              "value": "={{ $env.BLSTUDIO_WEBHOOK_SECRET }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={{ { post_id: $json.post_id, ig_post_id: $json.ig_media_id, published_at: $json.published_at } }}",
+        "options": {}
+      },
+      "id": "write-status-crm",
+      "name": "Escribir status en CRM",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        320
+      ],
+      "notes": "Fase 7. Llama al webhook de la Laravel API (blstudio-crm) para marcar el post como published. Requiere las variables de entorno BLSTUDIO_API_URL y BLSTUDIO_WEBHOOK_SECRET (= SUPABASE_SECRET del backend)."
     }
   ],
   "connections": {
@@ -93,6 +121,17 @@
         [
           {
             "node": "Crear y publicar carrusel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crear y publicar carrusel": {
+      "main": [
+        [
+          {
+            "node": "Escribir status en CRM",
             "type": "main",
             "index": 0
           }

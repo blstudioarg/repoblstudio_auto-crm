@@ -179,7 +179,35 @@
         1360,
         320
       ],
-      "notes": "Salida final: post_id + ig_media_id + status. En Fase 7 esto escribe el status de vuelta a la queue/Supabase."
+      "notes": "Salida final: post_id + ig_media_id + status."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.BLSTUDIO_API_URL }}/api/webhooks/post-published",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Webhook-Secret",
+              "value": "={{ $env.BLSTUDIO_WEBHOOK_SECRET }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={{ { post_id: $json.post_id, ig_post_id: $json.ig_media_id, published_at: $json.published_at } }}",
+        "options": {}
+      },
+      "id": "write-status-crm",
+      "name": "Escribir status en CRM",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1600,
+        320
+      ],
+      "notes": "Fase 7. Llama al webhook de la Laravel API (blstudio-crm) para marcar el post como published. Requiere las variables de entorno BLSTUDIO_API_URL y BLSTUDIO_WEBHOOK_SECRET (= SUPABASE_SECRET del backend)."
     }
   ],
   "connections": {
@@ -232,6 +260,17 @@
         [
           {
             "node": "Resultado (published)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resultado (published)": {
+      "main": [
+        [
+          {
+            "node": "Escribir status en CRM",
             "type": "main",
             "index": 0
           }

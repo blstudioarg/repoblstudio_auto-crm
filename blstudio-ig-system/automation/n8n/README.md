@@ -50,6 +50,73 @@ Resultado (published)   (post_id + ig_media_id + status)
 - **Token:** el long-lived vence cada ~60 días. Agendá la renovación (recordatorio mensual o nodo de refresh).
 - **Definition of done (Fase 4):** el workflow publica un post en IG sin intervención manual más allá de apretar *Execute* en n8n.
 
-## Próximo (Fase 7)
+## Fase 7 — Integración con el CRM (BLStudio CRM / Laravel API)
 
-Reemplazar el nodo *Datos del post* por una lectura automática de la queue/dashboard, agregar un trigger semanal (domingos 20:00) y escribir el `status: published` de vuelta a Supabase.
+Los 3 workflows de publicación (`workflow-publish-image.json`, `workflow-publish-carousel.json`, `workflow-publish-reel.json`) ahora terminan con un nodo **"Escribir status en CRM"** que llama al webhook de la Laravel API (`blstudio-crm/blstudio-crm-api`) para marcar el post como `published` en Supabase. Esto reemplaza la actualización manual — al publicar en IG, el calendario del panel se actualiza solo (vía Supabase Realtime, sin recargar).
+
+### Variables de entorno requeridas en n8n
+
+Configurar en *Settings → Variables* (n8n Cloud) o como env vars del proceso (self-hosted):
+
+| Variable | Valor |
+|---|---|
+| `BLSTUDIO_API_URL` | URL de la Laravel API, ej. `https://api.tudominio.com` (sin slash final) |
+| `BLSTUDIO_WEBHOOK_SECRET` | Debe ser **igual** al `SUPABASE_SECRET` (service_role key) configurado en el `.env` de `blstudio-crm-api` |
+
+### Endpoints que usan estos workflows
+
+```
+POST {BLSTUDIO_API_URL}/api/webhooks/post-published
+  Headers: X-Webhook-Secret: {BLSTUDIO_WEBHOOK_SECRET}
+  Body:    { post_id, ig_post_id, published_at }
+  Efecto:  posts.status = 'published' en Supabase
+
+POST {BLSTUDIO_API_URL}/api/webhooks/campaign-metrics
+  Headers: X-Webhook-Secret: {BLSTUDIO_WEBHOOK_SECRET}
+  Body:    { campaign_id, spent, reach, impressions, clicks, dms, leads, cpl }
+  Efecto:  actualiza la fila correspondiente en campaigns
+```
+
+Ambos endpoints viven fuera del middleware de JWT de usuario (no expira, apto para automatización desatendida) y validan el secreto con `hash_equals` contra `SUPABASE_SECRET`.
+
+### Nuevo workflow: métricas de campaña
+
+`workflow-update-campaign-metrics.json` — corre todos los días a las 07:00, trae `spend/reach/impressions/clicks/actions` de la **Meta Insights API** para una campaña, mapea `leads`/`dms`/`cpl` desde el array `actions`, y escribe el resultado en el CRM vía el webhook de arriba.
+
+**Setup:**
+1. Importar el workflow en n8n.
+2. En el nodo **"Campaña a sincronizar"**: completar `campaign_id` (UUID de la tabla `campaigns` en Supabase) y `meta_campaign_id` (ID de la campaña en Meta Ads Manager).
+3. Si hay más de una campaña activa, duplicar la rama desde ese nodo o reemplazarlo por una lectura de `GET /api/campaigns?status=active` (requiere JWT de usuario — usar una service account o token de larga duración).
+
+### Autopilot semanal (`workflow-weekly-trigger.json`)
+
+Decisiones de producto ya tomadas (2026-06-24): generación de contenido **con IA (Claude)**, **sin notificación** externa por ahora, **aprobación manual** desde el panel (ya implementada en Cockpit/Contenido). El workflow:
+
+```
+Domingos 20:00
+   ↓
+Leer último post          (GET Supabase REST: max dia_narrativo/semana/arc)
+   ↓
+Calcular próxima semana   (Code: rota arco cada 4 semanas, asigna Lun=Historia/Mié=Carrusel/Vie=Reel + pilar)
+   ↓
+Generar copy con Claude   (POST api.anthropic.com/v1/messages, voz de marca de master-copy-prompt.md)
+   ↓
+Armar posts completos     (Code: combina la respuesta de Claude con los campos estructurales)
+   ↓
+Insertar en Supabase      (POST Supabase REST → tabla posts, status='copy_ready')
+```
+
+Los 3 posts quedan en `copy_ready` y aparecen solos en Cockpit ("Esperando tu aprobación") y en el calendario de Contenido — se aprueban a mano, sin tocar n8n.
+
+**Variables de entorno adicionales para este workflow:**
+
+| Variable | Valor |
+|---|---|
+| `ANTHROPIC_API_KEY` | API key de Anthropic (console.anthropic.com) |
+| `ANTHROPIC_MODEL` | Opcional. Default `claude-sonnet-4-6` — ajustar al modelo vigente |
+| `SUPABASE_URL` | Mismo valor que en `blstudio-crm-api/.env` |
+| `SUPABASE_SECRET` | Mismo valor (service_role key) — el insert bypassa RLS |
+
+**Antes de dejarlo en automático:** correr el workflow una vez manual (*Execute workflow*) y revisar que el copy generado suene a la marca. Si no convence, ajustar el `systemPrompt` dentro del nodo "Calcular próxima semana" (Code) antes de confiar en el cron semanal.
+
+**Prerequisito:** la tabla `posts` debe tener al menos una fila (el seed de la narrativa de julio 2026) para que "Leer último post" tenga de dónde continuar la numeración.
