@@ -1,0 +1,27 @@
+# Secretos / entornos
+.env
+.env.*
+!.env.example
+
+# Dependencias
+node_modules/
+vendor/
+dist/
+build/
+.vite/
+
+# Laravel
+/blstudio-crm/blstudio-crm-api/vendor/
+/blstudio-crm/blstudio-crm-api/storage/*.key
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.log
+
+# Obsidian (estado local de la UI, no compartir)
+.obsidian/workspace.json
+.obsidian/workspace*.json
+**/.obsidian/workspace.json
+**/.obsidian/workspace*.json
+.obsidian/cache

@@ -1,0 +1,249 @@
+{
+  "name": "BLStudio — Publicar imagen en IG",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "trigger-manual",
+      "name": "Trigger manual",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        180,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "post_id",
+              "value": "2026-07-lun-sem1",
+              "type": "string"
+            },
+            {
+              "id": "a2",
+              "name": "ig_user_id",
+              "value": "17841422929265077",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "image_url",
+              "value": "https://REEMPLAZAR-con-URL-publica-de-la-imagen.png",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "caption",
+              "value": "Caption del post + hashtags",
+              "type": "string"
+            },
+            {
+              "id": "atok",
+              "name": "access_token",
+              "value": "PEGA_TU_TOKEN_DE_60_DIAS_ACA",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-post-data",
+      "name": "Datos del post",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        400,
+        320
+      ],
+      "notes": "n8n Cloud: pegá tu token en 'access_token'. ig_user_id ya tiene el ID. Completá image_url/video_url/caption del post aprobado."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.instagram.com/v21.0/{{ $json.ig_user_id }}/media",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "image_url",
+              "value": "={{ $json.image_url }}"
+            },
+            {
+              "name": "caption",
+              "value": "={{ $json.caption }}"
+            },
+            {
+              "name": "access_token",
+              "value": "={{ $('Datos del post').item.json.access_token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "create-container",
+      "name": "Crear media container",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        640,
+        320
+      ],
+      "notes": "Meta exige que image_url sea una URL pública (la export de Canva). Devuelve { id: creation_id }."
+    },
+    {
+      "parameters": {
+        "amount": 8,
+        "unit": "seconds"
+      },
+      "id": "wait-processing",
+      "name": "Esperar procesamiento",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        880,
+        320
+      ],
+      "webhookId": "blstudio-wait-processing"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.instagram.com/v21.0/{{ $('Datos del post').item.json.ig_user_id }}/media_publish",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "creation_id",
+              "value": "={{ $('Crear media container').item.json.id }}"
+            },
+            {
+              "name": "access_token",
+              "value": "={{ $('Datos del post').item.json.access_token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "publish-container",
+      "name": "Publicar container",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1120,
+        320
+      ],
+      "notes": "Publica el container creado. Devuelve { id: media_id } del post ya publicado."
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "r1",
+              "name": "post_id",
+              "value": "={{ $('Datos del post').item.json.post_id }}",
+              "type": "string"
+            },
+            {
+              "id": "r2",
+              "name": "ig_media_id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "r3",
+              "name": "status",
+              "value": "published",
+              "type": "string"
+            },
+            {
+              "id": "r4",
+              "name": "published_at",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-result",
+      "name": "Resultado (published)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1360,
+        320
+      ],
+      "notes": "Salida final: post_id + ig_media_id + status. En Fase 7 esto escribe el status de vuelta a la queue/Supabase."
+    }
+  ],
+  "connections": {
+    "Trigger manual": {
+      "main": [
+        [
+          {
+            "node": "Datos del post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Datos del post": {
+      "main": [
+        [
+          {
+            "node": "Crear media container",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crear media container": {
+      "main": [
+        [
+          {
+            "node": "Esperar procesamiento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Esperar procesamiento": {
+      "main": [
+        [
+          {
+            "node": "Publicar container",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Publicar container": {
+      "main": [
+        [
+          {
+            "node": "Resultado (published)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "description": "BLStudio Fase 4. Publica un post estatico (imagen + caption) en @blstudioarg2026 via Instagram Content Publishing API. Trigger manual para el MVP."
+  },
+  "pinData": {}
+}

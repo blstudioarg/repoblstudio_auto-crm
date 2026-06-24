@@ -1,0 +1,20 @@
+{
+  "_note": "Registrar acá los IDs reales de Canva cuando se creen los templates (Fase 2). Los valores PENDIENTE son placeholders.",
+  "historia": {
+    "p1-seo": "PENDIENTE",
+    "p2-org": "PENDIENTE",
+    "p3-fid": "PENDIENTE",
+    "p4-err": "PENDIENTE",
+    "p5-casos": "PENDIENTE"
+  },
+  "carrusel": {
+    "p1-seo": "PENDIENTE",
+    "p2-org": "PENDIENTE",
+    "p3-fid": "PENDIENTE",
+    "p4-err": "PENDIENTE",
+    "p5-casos": "PENDIENTE"
+  },
+  "reel": {
+    "thumbnail": "PENDIENTE"
+  }
+}

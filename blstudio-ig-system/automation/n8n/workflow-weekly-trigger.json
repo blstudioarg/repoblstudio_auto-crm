@@ -1,0 +1,82 @@
+{
+  "name": "BLStudio — Trigger semanal (Fase 7)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            { "field": "cronExpression", "expression": "0 20 * * 0" }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Domingos 20:00",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [180, 320],
+      "notes": "Corre todos los domingos a las 20:00 (zona horaria del workspace n8n)."
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "p1",
+              "name": "plan",
+              "value": "Generar los 3 posts de la semana siguiente del calendario julio-2026.json, dejarlos en content/queue/ para revisión, y avisar a Juan.",
+              "type": "string"
+            },
+            {
+              "id": "p2",
+              "name": "next_week_start",
+              "value": "={{ $now.plus({ days: 1 }).toFormat('yyyy-MM-dd') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-plan",
+      "name": "Plan de la semana",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [400, 320],
+      "notes": "Scaffold. Conectar acá la generación (webhook a Cowork/Claude o lectura de la queue ya preparada)."
+    },
+    {
+      "parameters": {
+        "content": "## Fase 7 — qué completar\n\nEste workflow es el esqueleto del autopilot semanal. Para completarlo:\n\n1. **Generar contenido**: reemplazar/extender 'Plan de la semana' con un webhook que dispare la generación en Cowork/Claude, o que lea los posts ya preparados en `content/queue/`.\n2. **Notificar a Juan**: agregar un nodo (Email / WhatsApp / Telegram) que le avise que hay posts para revisar.\n3. **Esperar aprobación**: un nodo Wait con webhook (Juan aprueba desde un link).\n4. **Publicar**: al aprobar, llamar a los workflows de imagen / carrusel / reel con los horarios del calendario (o usar 'Execute Workflow').\n5. **Escribir estado**: actualizar el status a 'published' en la queue / Supabase (CRM).",
+        "height": 320,
+        "width": 460
+      },
+      "id": "sticky-note",
+      "name": "TODO Fase 7",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [640, 200]
+    },
+    {
+      "parameters": {},
+      "id": "noop-end",
+      "name": "Pendiente: conectar generación + notificación",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [400, 540]
+    }
+  ],
+  "connections": {
+    "Domingos 20:00": {
+      "main": [[{ "node": "Plan de la semana", "type": "main", "index": 0 }]]
+    },
+    "Plan de la semana": {
+      "main": [[{ "node": "Pendiente: conectar generación + notificación", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "description": "BLStudio — Fase 7. Esqueleto del trigger automático semanal (domingos 20:00). Pendiente conectar generación, notificación y publicación."
+  },
+  "pinData": {}
+}

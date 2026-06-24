@@ -1,0 +1,12 @@
+{
+  "instagram": {
+    "account_id": "17841422929265077",
+    "graph_api_version": "v21.0"
+  },
+  "notes": [
+    "Este archivo es solo de referencia de estructura. NO poner tokens reales acá.",
+    "El access_token y el account_id reales van como variables de entorno en n8n:",
+    "INSTAGRAM_ACCESS_TOKEN y INSTAGRAM_ACCOUNT_ID.",
+    "El token de larga duración de Meta vence cada ~60 días: agendar renovación."
+  ]
+}

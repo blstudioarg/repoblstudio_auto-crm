@@ -1,0 +1,110 @@
+{
+  "name": "BLStudio — Publicar carrusel en IG",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "trigger-manual",
+      "name": "Trigger manual",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        180,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "post_id",
+              "value": "2026-07-mie-sem1",
+              "type": "string"
+            },
+            {
+              "id": "a2",
+              "name": "ig_user_id",
+              "value": "17841422929265077",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "caption",
+              "value": "Caption del carrusel + hashtags",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "image_urls",
+              "value": "=[\"https://REEMPLAZAR-slide-1.png\", \"https://REEMPLAZAR-slide-2.png\", \"https://REEMPLAZAR-slide-3.png\"]",
+              "type": "array"
+            },
+            {
+              "id": "atok",
+              "name": "access_token",
+              "value": "PEGA_TU_TOKEN_DE_60_DIAS_ACA",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-post-data",
+      "name": "Datos del post",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        400,
+        320
+      ],
+      "notes": "n8n Cloud: pegá tu token en 'access_token'. ig_user_id ya tiene el ID. Completá image_url/video_url/caption del post aprobado."
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// BLStudio — Publicar carrusel (2-10 imágenes) en Instagram\n// 1) crea un container hijo por imagen, 2) crea el container padre CAROUSEL, 3) publica.\nconst data = $input.first().json;\nconst igUserId = data.ig_user_id;\nconst caption = data.caption || '';\nlet images = data.image_urls || [];\nif (typeof images === 'string') { images = JSON.parse(images); }\nconst token = data.access_token;\nconst base = 'https://graph.instagram.com/v21.0';\n\nif (!Array.isArray(images) || images.length < 2 || images.length > 10) {\n  throw new Error('Un carrusel necesita entre 2 y 10 imágenes en image_urls');\n}\n\n// 1) containers hijos\nconst childIds = [];\nfor (const url of images) {\n  const res = await this.helpers.httpRequest({\n    method: 'POST',\n    url: base + '/' + igUserId + '/media',\n    qs: { image_url: url, is_carousel_item: true, access_token: token },\n    json: true,\n  });\n  childIds.push(res.id);\n}\n\n// 2) container padre\nconst parent = await this.helpers.httpRequest({\n  method: 'POST',\n  url: base + '/' + igUserId + '/media',\n  qs: { media_type: 'CAROUSEL', children: childIds.join(','), caption: caption, access_token: token },\n  json: true,\n});\n\n// 3) publicar\nconst pub = await this.helpers.httpRequest({\n  method: 'POST',\n  url: base + '/' + igUserId + '/media_publish',\n  qs: { creation_id: parent.id, access_token: token },\n  json: true,\n});\n\nreturn [{ json: {\n  post_id: data.post_id,\n  ig_media_id: pub.id,\n  children: childIds,\n  status: 'published',\n  published_at: new Date().toISOString(),\n} }];"
+      },
+      "id": "publish-carousel",
+      "name": "Crear y publicar carrusel",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        640,
+        320
+      ],
+      "notes": "Usa data.access_token. Crea N containers hijos + padre CAROUSEL + publish en una sola corrida."
+    }
+  ],
+  "connections": {
+    "Trigger manual": {
+      "main": [
+        [
+          {
+            "node": "Datos del post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Datos del post": {
+      "main": [
+        [
+          {
+            "node": "Crear y publicar carrusel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "description": "BLStudio — Publica un carrusel (2-10 imágenes) en @blstudioarg2026 via Instagram Content Publishing API. Trigger manual."
+  },
+  "pinData": {}
+}

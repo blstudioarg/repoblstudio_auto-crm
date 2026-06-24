@@ -1,0 +1,316 @@
+{
+  "name": "BLStudio — Publicar reel en IG",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "trigger-manual",
+      "name": "Trigger manual",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        180,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "post_id",
+              "value": "2026-07-vie-sem1",
+              "type": "string"
+            },
+            {
+              "id": "a2",
+              "name": "ig_user_id",
+              "value": "17841422929265077",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "video_url",
+              "value": "https://REEMPLAZAR-con-URL-publica-del-video.mp4",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "caption",
+              "value": "Caption del reel + hashtags",
+              "type": "string"
+            },
+            {
+              "id": "atok",
+              "name": "access_token",
+              "value": "PEGA_TU_TOKEN_DE_60_DIAS_ACA",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-post-data",
+      "name": "Datos del post",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        400,
+        320
+      ],
+      "notes": "n8n Cloud: pegá tu token en 'access_token'. ig_user_id ya tiene el ID. Completá image_url/video_url/caption del post aprobado."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.instagram.com/v21.0/{{ $json.ig_user_id }}/media",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "media_type",
+              "value": "REELS"
+            },
+            {
+              "name": "video_url",
+              "value": "={{ $json.video_url }}"
+            },
+            {
+              "name": "caption",
+              "value": "={{ $json.caption }}"
+            },
+            {
+              "name": "access_token",
+              "value": "={{ $('Datos del post').item.json.access_token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "create-container",
+      "name": "Crear container REELS",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        640,
+        320
+      ],
+      "notes": "Devuelve { id: creation_id }. El video entra en procesamiento (no está listo al instante)."
+    },
+    {
+      "parameters": {
+        "amount": 60,
+        "unit": "seconds"
+      },
+      "id": "wait-processing",
+      "name": "Esperar procesamiento (60s)",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        880,
+        320
+      ],
+      "webhookId": "blstudio-wait-reel"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://graph.instagram.com/v21.0/{{ $('Crear container REELS').item.json.id }}",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "fields",
+              "value": "status_code"
+            },
+            {
+              "name": "access_token",
+              "value": "={{ $('Datos del post').item.json.access_token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "check-status",
+      "name": "Chequear estado",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1120,
+        320
+      ],
+      "notes": "status_code debe ser FINISHED antes de publicar. Si da IN_PROGRESS, aumentar el Wait o reintentar."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "version": 2
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.status_code }}",
+              "rightValue": "FINISHED",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "if-finished",
+      "name": "¿FINISHED?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1360,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.instagram.com/v21.0/{{ $('Datos del post').item.json.ig_user_id }}/media_publish",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "creation_id",
+              "value": "={{ $('Crear container REELS').item.json.id }}"
+            },
+            {
+              "name": "access_token",
+              "value": "={{ $('Datos del post').item.json.access_token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "publish-container",
+      "name": "Publicar reel",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1600,
+        220
+      ],
+      "notes": "Devuelve { id: media_id } del reel publicado."
+    },
+    {
+      "parameters": {
+        "amount": 60,
+        "unit": "seconds"
+      },
+      "id": "wait-more",
+      "name": "Esperar más y reintentar",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1600,
+        440
+      ],
+      "webhookId": "blstudio-wait-reel-retry",
+      "notes": "Si todavía no terminó de procesar, esperar y volver a chequear el estado."
+    }
+  ],
+  "connections": {
+    "Trigger manual": {
+      "main": [
+        [
+          {
+            "node": "Datos del post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Datos del post": {
+      "main": [
+        [
+          {
+            "node": "Crear container REELS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crear container REELS": {
+      "main": [
+        [
+          {
+            "node": "Esperar procesamiento (60s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Esperar procesamiento (60s)": {
+      "main": [
+        [
+          {
+            "node": "Chequear estado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chequear estado": {
+      "main": [
+        [
+          {
+            "node": "¿FINISHED?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿FINISHED?": {
+      "main": [
+        [
+          {
+            "node": "Publicar reel",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Esperar más y reintentar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Esperar más y reintentar": {
+      "main": [
+        [
+          {
+            "node": "Chequear estado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "description": "BLStudio — Publica un Reel en @blstudioarg2026 via Instagram Content Publishing API. Crea container REELS, espera FINISHED y publica."
+  },
+  "pinData": {}
+}
