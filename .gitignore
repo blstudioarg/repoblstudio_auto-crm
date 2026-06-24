@@ -19,6 +19,10 @@ build/
 Thumbs.db
 *.log
 
+# Python
+__pycache__/
+*.pyc
+
 # Obsidian (estado local de la UI, no compartir)
 .obsidian/workspace.json
 .obsidian/workspace*.json
