@@ -18,10 +18,29 @@
     "¿Querés el tuyo así? Mandá MD 👇"
   ],
   "cta": "Mandá MD y te muestro cómo quedaría tu negocio.",
-  "hashtags": ["#casodeexito", "#hamburgueseria", "#smashburger", "#olavarria", "#sistema"],
+  "hashtags": [
+    "#casodeexito",
+    "#hamburgueseria",
+    "#smashburger",
+    "#olavarria",
+    "#sistema"
+  ],
   "visual_brief": "Reel: cocina de Tcocina en pico de domingo (manos armando burgers) + plano de la pantalla del sistema mostrando pedidos ordenados. Texto on-screen grande, blanco bold + números en lima. Cierre con logo BLStudio sobre negro.",
-  "image_url": "",
-  "status": "generated",
+  "image_url": "assets/reels/2026-07-vie-sem1/cover.png",
+  "status": "rendered",
   "approved": false,
-  "published_at": null}
-
+  "published_at": null,
+  "assets": {
+    "html": "assets/reels/2026-07-vie-sem1/index.html",
+    "cover": "assets/reels/2026-07-vie-sem1/cover.png",
+    "png_dir": "assets/reels/2026-07-vie-sem1/png",
+    "slides": [
+      "assets/reels/2026-07-vie-sem1/png/slide-01.png",
+      "assets/reels/2026-07-vie-sem1/png/slide-02.png",
+      "assets/reels/2026-07-vie-sem1/png/slide-03.png",
+      "assets/reels/2026-07-vie-sem1/png/slide-04.png",
+      "assets/reels/2026-07-vie-sem1/png/slide-05.png",
+      "assets/reels/2026-07-vie-sem1/png/slide-06.png"
+    ]
+  }
+}

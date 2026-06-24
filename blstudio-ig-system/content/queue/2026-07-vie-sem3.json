@@ -22,11 +22,23 @@
     "#olavarria"
   ],
   "visual_brief": "Reel antes/después: toma de pedidos manual vs catálogo web + comandas en tablet. Texto: '20 años a mano. 2 semanas para cambiarlo.'",
-  "image_url": "",
-  "status": "generated",
+  "image_url": "assets/reels/2026-07-vie-sem3/cover.png",
+  "status": "rendered",
   "approved": false,
   "published_at": null,
   "hook": "Una rotisería de 20 años, todo a mano. En 2 semanas, digitalizada.",
   "voiceover": "Doña Clara es una casa de comidas con 20 años de trayectoria y mucha clientela. Tomaban todos los pedidos a mano, uno por uno: un quilombo. En 2 semanas armamos el catálogo web, las comandas en tablet para la cocina y el cobro integrado. Hoy el pedido entra solo y la cocina lo ve al instante. 20 años a mano, 2 semanas para cambiarlo.",
-  "cta": "Mandá MD y vemos cómo quedaría tu local."
+  "cta": "Mandá MD y vemos cómo quedaría tu local.",
+  "assets": {
+    "html": "assets/reels/2026-07-vie-sem3/index.html",
+    "cover": "assets/reels/2026-07-vie-sem3/cover.png",
+    "png_dir": "assets/reels/2026-07-vie-sem3/png",
+    "slides": [
+      "assets/reels/2026-07-vie-sem3/png/slide-01.png",
+      "assets/reels/2026-07-vie-sem3/png/slide-02.png",
+      "assets/reels/2026-07-vie-sem3/png/slide-03.png",
+      "assets/reels/2026-07-vie-sem3/png/slide-04.png",
+      "assets/reels/2026-07-vie-sem3/png/slide-05.png"
+    ]
+  }
 }

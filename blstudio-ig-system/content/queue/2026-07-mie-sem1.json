@@ -15,10 +15,29 @@
     "4. No fidelizás. El cliente viene una vez, la pasa bien... y no vuelve nunca.",
     "¿Reconocés alguno? Los 4 se arreglan con un sistema. Mandá MD. 👇"
   ],
-  "hashtags": ["#gastronomia", "#emprendedores", "#delivery", "#negocios", "#hamburgueseria"],
+  "hashtags": [
+    "#gastronomia",
+    "#emprendedores",
+    "#delivery",
+    "#negocios",
+    "#hamburgueseria"
+  ],
   "visual_brief": "Carrusel de 6 slides. Cover con título grande blanco + '4' en lima gigante. Cada slide: número grande en lima sobre negro + el error en blanco bold. Slide final: CTA con flecha lima.",
-  "image_url": "",
-  "status": "generated",
+  "image_url": "assets/carruseles/2026-07-mie-sem1/cover.png",
+  "status": "rendered",
   "approved": false,
-  "published_at": null
+  "published_at": null,
+  "assets": {
+    "html": "assets/carruseles/2026-07-mie-sem1/index.html",
+    "cover": "assets/carruseles/2026-07-mie-sem1/cover.png",
+    "png_dir": "assets/carruseles/2026-07-mie-sem1/png",
+    "slides": [
+      "assets/carruseles/2026-07-mie-sem1/png/slide-01.png",
+      "assets/carruseles/2026-07-mie-sem1/png/slide-02.png",
+      "assets/carruseles/2026-07-mie-sem1/png/slide-03.png",
+      "assets/carruseles/2026-07-mie-sem1/png/slide-04.png",
+      "assets/carruseles/2026-07-mie-sem1/png/slide-05.png",
+      "assets/carruseles/2026-07-mie-sem1/png/slide-06.png"
+    ]
+  }
 }

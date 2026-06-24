@@ -22,11 +22,23 @@
     "#hamburgueseria"
   ],
   "visual_brief": "Reel: animación simple de figuritas/puntos acumulándose. Texto on-screen: 'Que vuelva no es suerte. Es sistema.'",
-  "image_url": "",
-  "status": "generated",
+  "image_url": "assets/reels/2026-07-vie-sem2/cover.png",
+  "status": "rendered",
   "approved": false,
   "published_at": null,
   "hook": "Conseguir un cliente nuevo cuesta 5 veces más que hacer volver a uno.",
   "voiceover": "Todos corren atrás del cliente nuevo. Pero el que ya te compró y la pasó bien es el más barato de traer de vuelta. Un sistema de puntos o figuritas hace que vuelva sin que le ruegues: junta, canjea, vuelve. Fidelizar no es regalar plata, es estar organizado para que el cliente tenga un motivo de volver.",
-  "cta": "Mandá MD y te muestro cómo quedaría en tu local."
+  "cta": "Mandá MD y te muestro cómo quedaría en tu local.",
+  "assets": {
+    "html": "assets/reels/2026-07-vie-sem2/index.html",
+    "cover": "assets/reels/2026-07-vie-sem2/cover.png",
+    "png_dir": "assets/reels/2026-07-vie-sem2/png",
+    "slides": [
+      "assets/reels/2026-07-vie-sem2/png/slide-01.png",
+      "assets/reels/2026-07-vie-sem2/png/slide-02.png",
+      "assets/reels/2026-07-vie-sem2/png/slide-03.png",
+      "assets/reels/2026-07-vie-sem2/png/slide-04.png",
+      "assets/reels/2026-07-vie-sem2/png/slide-05.png"
+    ]
+  }
 }

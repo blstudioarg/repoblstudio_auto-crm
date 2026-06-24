@@ -12,14 +12,38 @@
       "topic": "Si no aparecés en Google, no existís",
       "format": "Historia",
       "canva_template_id": "",
-      "caption": "",
-      "slide_texts": [],
-      "hashtags": ["#gastronomia", "#hamburgueseria", "#googlemaps", "#seolocal", "#pyme"],
+      "caption": "Buscá \"hamburguesas\" + tu ciudad en Google ahora mismo. ¿Aparecés vos o aparece el de al lado?\n\n8 de cada 10 personas que quieren pedir buscan en Google primero. Si tu local no está, le estás regalando ese pedido a la competencia todos los días sin enterarte.\n\nNo es magia ni hay que saber de tecnología. Google Business verificado + tu local bien cargado (fotos, horarios, reseñas) y empezás a aparecer en días, no en meses.\n\n¿Querés que te diga cómo está tu negocio en Google hoy? Respondé esta historia y te lo miro. 👇",
+      "slide_texts": [
+        "Buscá \"hamburguesas + tu ciudad\" en Google.",
+        "¿Aparecés vos? ¿O aparece el de al lado?",
+        "8 de cada 10 buscan en Google antes de pedir.",
+        "Si no estás ahí, no existís para ellos.",
+        "Se arregla en días. Respondé esta historia 👇"
+      ],
+      "hashtags": [
+        "#gastronomia",
+        "#hamburgueseria",
+        "#googlemaps",
+        "#seolocal",
+        "#pyme"
+      ],
       "visual_brief": "Captura de una búsqueda en Google Maps 'hamburguesas [ciudad]' con un local que NO aparece. Fondo negro, flecha lima señalando el vacío.",
-      "image_url": "",
-      "status": "draft",
+      "image_url": "assets/historias/2026-07-lun-sem1/cover.png",
+      "status": "rendered",
       "approved": false,
-      "published_at": null
+      "published_at": null,
+      "assets": {
+        "html": "assets/historias/2026-07-lun-sem1/index.html",
+        "cover": "assets/historias/2026-07-lun-sem1/cover.png",
+        "png_dir": "assets/historias/2026-07-lun-sem1/png",
+        "slides": [
+          "assets/historias/2026-07-lun-sem1/png/slide-01.png",
+          "assets/historias/2026-07-lun-sem1/png/slide-02.png",
+          "assets/historias/2026-07-lun-sem1/png/slide-03.png",
+          "assets/historias/2026-07-lun-sem1/png/slide-04.png",
+          "assets/historias/2026-07-lun-sem1/png/slide-05.png"
+        ]
+      }
     },
     {
       "post_id": "2026-07-mie-sem1",
@@ -29,14 +53,40 @@
       "topic": "4 errores que te hacen perder pedidos",
       "format": "Carrusel",
       "canva_template_id": "",
-      "caption": "",
-      "slide_texts": [],
-      "hashtags": ["#gastronomia", "#emprendedores", "#delivery", "#negocios", "#hamburgueseria"],
+      "caption": "Ninguno de estos errores se ve en la caja a fin de mes. Por eso son tan caros: te sacan pedidos sin que te des cuenta.\n\nLos 4 tienen el mismo arreglo: organizarte con un sistema, no con la cabeza y el WhatsApp.\n\n¿Cuál de los 4 te pasa? Decímelo en los comentarios o mandá MD y lo vemos. 👇",
+      "slide_texts": [
+        "4 errores que te hacen perder pedidos (y ni te enterás)",
+        "1. No aparecés en Google. El cliente busca, no te encuentra y pide en otro lado.",
+        "2. Tomás todo por WhatsApp. Se traspapelan pedidos, la cocina se atrasa y vos vivís corriendo.",
+        "3. Solo aceptás efectivo. Cada 'no tengo cambio' o 'no tenés tarjeta' es una venta que se va.",
+        "4. No fidelizás. El cliente viene una vez, la pasa bien... y no vuelve nunca.",
+        "¿Reconocés alguno? Los 4 se arreglan con un sistema. Mandá MD. 👇"
+      ],
+      "hashtags": [
+        "#gastronomia",
+        "#emprendedores",
+        "#delivery",
+        "#negocios",
+        "#hamburgueseria"
+      ],
       "visual_brief": "Carrusel de 4 slides, 1 error por slide (web invisible, WhatsApp caótico, no cobrar tarjeta, no fidelizar). Numeración grande en lima sobre negro.",
-      "image_url": "",
-      "status": "draft",
+      "image_url": "assets/carruseles/2026-07-mie-sem1/cover.png",
+      "status": "rendered",
       "approved": false,
-      "published_at": null
+      "published_at": null,
+      "assets": {
+        "html": "assets/carruseles/2026-07-mie-sem1/index.html",
+        "cover": "assets/carruseles/2026-07-mie-sem1/cover.png",
+        "png_dir": "assets/carruseles/2026-07-mie-sem1/png",
+        "slides": [
+          "assets/carruseles/2026-07-mie-sem1/png/slide-01.png",
+          "assets/carruseles/2026-07-mie-sem1/png/slide-02.png",
+          "assets/carruseles/2026-07-mie-sem1/png/slide-03.png",
+          "assets/carruseles/2026-07-mie-sem1/png/slide-04.png",
+          "assets/carruseles/2026-07-mie-sem1/png/slide-05.png",
+          "assets/carruseles/2026-07-mie-sem1/png/slide-06.png"
+        ]
+      }
     },
     {
       "post_id": "2026-07-vie-sem1",
@@ -46,14 +96,40 @@
       "topic": "Tcocina: 150 pedidos un domingo sin errores",
       "format": "Reel",
       "canva_template_id": "",
-      "caption": "",
-      "slide_texts": [],
-      "hashtags": ["#casodeexito", "#hamburgueseria", "#smashburger", "#olavarria", "#sistema"],
+      "caption": "150 pedidos un domingo, sin un solo error. 🍔\n\nTcocina (Olavarría) pasó del caos de papeles y WhatsApp a tener todo en un sistema: el pedido entra, la cocina lo ve en tiempo real y el cliente sigue el suyo sin preguntar.\n\nNo hizo falta que el dueño aprenda nada técnico. Le armamos el sistema y listo.\n\n¿Tenés volumen los fines de semana y se te escapan pedidos? Mandá MD y te muestro cómo quedaría el tuyo. 👇",
+      "slide_texts": [
+        "150 pedidos un domingo.",
+        "Antes: papeles, WhatsApp, gritos en la cocina.",
+        "Ahora: el pedido entra y la cocina lo ve en tiempo real.",
+        "El cliente sigue su pedido solo. Nadie pregunta nada.",
+        "150 pedidos. Cero errores. Eso es tener el sistema.",
+        "¿Querés el tuyo así? Mandá MD 👇"
+      ],
+      "hashtags": [
+        "#casodeexito",
+        "#hamburgueseria",
+        "#smashburger",
+        "#olavarria",
+        "#sistema"
+      ],
       "visual_brief": "Reel: cocina de Tcocina en pico de domingo + pantalla del sistema mostrando pedidos ordenados. Texto on-screen: '150 pedidos. Cero errores.'",
-      "image_url": "",
-      "status": "draft",
+      "image_url": "assets/reels/2026-07-vie-sem1/cover.png",
+      "status": "rendered",
       "approved": false,
-      "published_at": null
+      "published_at": null,
+      "assets": {
+        "html": "assets/reels/2026-07-vie-sem1/index.html",
+        "cover": "assets/reels/2026-07-vie-sem1/cover.png",
+        "png_dir": "assets/reels/2026-07-vie-sem1/png",
+        "slides": [
+          "assets/reels/2026-07-vie-sem1/png/slide-01.png",
+          "assets/reels/2026-07-vie-sem1/png/slide-02.png",
+          "assets/reels/2026-07-vie-sem1/png/slide-03.png",
+          "assets/reels/2026-07-vie-sem1/png/slide-04.png",
+          "assets/reels/2026-07-vie-sem1/png/slide-05.png",
+          "assets/reels/2026-07-vie-sem1/png/slide-06.png"
+        ]
+      }
     },
     {
       "post_id": "2026-07-lun-sem2",
@@ -63,14 +139,38 @@
       "topic": "WhatsApp vs sistema: el quilombo de tomar pedidos a mano",
       "format": "Historia",
       "canva_template_id": "",
-      "caption": "",
-      "slide_texts": [],
-      "hashtags": ["#gastronomia", "#organizacion", "#delivery", "#whatsappbusiness", "#pyme"],
+      "caption": "Tomar pedidos por WhatsApp parece gratis. Pero te sale carísimo: mensajes que se mezclan, pedidos que se pierden, la cocina que no sabe qué entra y vos contestando “ya sale” a las 9 de la noche.\n\nUn sistema toma el pedido solo, lo manda a la cocina ordenado y le avisa al cliente en qué anda. Vos cocinás, no corrés.\n\n¿Cuántos pedidos se te escapan un finde por el quilombo del WhatsApp? Respondé esta historia 👇",
+      "slide_texts": [
+        "¿Tomás los pedidos por WhatsApp?",
+        "Mensajes que se mezclan. Pedidos que se pierden.",
+        "La cocina no sabe qué entra. Vos vivís contestando.",
+        "Un sistema lo ordena: pedido → cocina → cliente.",
+        "Vos cocinás, no corrés. Respondé esta historia 👇"
+      ],
+      "hashtags": [
+        "#gastronomia",
+        "#organizacion",
+        "#delivery",
+        "#whatsappbusiness",
+        "#pyme"
+      ],
       "visual_brief": "Split: izquierda chat de WhatsApp desbordado, derecha panel de pedidos limpio del sistema. Flecha lima del caos al orden.",
-      "image_url": "",
-      "status": "draft",
+      "image_url": "assets/historias/2026-07-lun-sem2/cover.png",
+      "status": "rendered",
       "approved": false,
-      "published_at": null
+      "published_at": null,
+      "assets": {
+        "html": "assets/historias/2026-07-lun-sem2/index.html",
+        "cover": "assets/historias/2026-07-lun-sem2/cover.png",
+        "png_dir": "assets/historias/2026-07-lun-sem2/png",
+        "slides": [
+          "assets/historias/2026-07-lun-sem2/png/slide-01.png",
+          "assets/historias/2026-07-lun-sem2/png/slide-02.png",
+          "assets/historias/2026-07-lun-sem2/png/slide-03.png",
+          "assets/historias/2026-07-lun-sem2/png/slide-04.png",
+          "assets/historias/2026-07-lun-sem2/png/slide-05.png"
+        ]
+      }
     },
     {
       "post_id": "2026-07-mie-sem2",
@@ -80,14 +180,42 @@
       "topic": "Cómo verificar tu local en Google (paso a paso)",
       "format": "Carrusel",
       "canva_template_id": "",
-      "caption": "",
-      "slide_texts": [],
-      "hashtags": ["#googlebusiness", "#seolocal", "#gastronomia", "#tutorial", "#negocios"],
+      "caption": "Aparecer en Google Maps no es magia ni hace falta saber de tecnología. Son 5 pasos y la mayoría son gratis.\n\nGuardá este carrusel y hacelo este finde. Si querés que te lo dejemos listo y verificado, mandá MD 👇",
+      "slide_texts": [
+        "Cómo aparecer en Google Maps (paso a paso)",
+        "1. Creá tu ficha en Google Business Profile. Es gratis.",
+        "2. Cargá nombre, dirección, horarios y teléfono. Igual que en tus redes.",
+        "3. Pedí la verificación: Google te manda un código (video o correo).",
+        "4. Subí fotos reales: local, productos, equipo. Más fotos, más clics.",
+        "5. Pedí reseñas a tus clientes. Son las que te hacen subir.",
+        "¿Lo hacés vos o te lo dejamos listo? Mandá MD 👇"
+      ],
+      "hashtags": [
+        "#googlebusiness",
+        "#seolocal",
+        "#gastronomia",
+        "#tutorial",
+        "#negocios"
+      ],
       "visual_brief": "Carrusel de 5 slides: paso a paso de verificación de Google Business. Capturas reales con anotaciones en lima.",
-      "image_url": "",
-      "status": "draft",
+      "image_url": "assets/carruseles/2026-07-mie-sem2/cover.png",
+      "status": "rendered",
       "approved": false,
-      "published_at": null
+      "published_at": null,
+      "assets": {
+        "html": "assets/carruseles/2026-07-mie-sem2/index.html",
+        "cover": "assets/carruseles/2026-07-mie-sem2/cover.png",
+        "png_dir": "assets/carruseles/2026-07-mie-sem2/png",
+        "slides": [
+          "assets/carruseles/2026-07-mie-sem2/png/slide-01.png",
+          "assets/carruseles/2026-07-mie-sem2/png/slide-02.png",
+          "assets/carruseles/2026-07-mie-sem2/png/slide-03.png",
+          "assets/carruseles/2026-07-mie-sem2/png/slide-04.png",
+          "assets/carruseles/2026-07-mie-sem2/png/slide-05.png",
+          "assets/carruseles/2026-07-mie-sem2/png/slide-06.png",
+          "assets/carruseles/2026-07-mie-sem2/png/slide-07.png"
+        ]
+      }
     },
     {
       "post_id": "2026-07-vie-sem2",
@@ -97,14 +225,38 @@
       "topic": "El cliente que vuelve vale 5x el que viene una vez",
       "format": "Reel",
       "canva_template_id": "",
-      "caption": "",
-      "slide_texts": [],
-      "hashtags": ["#fidelizacion", "#gastronomia", "#clientes", "#recompra", "#hamburgueseria"],
+      "caption": "Conseguir un cliente nuevo cuesta 5x más que hacer volver a uno. 🔁\n\nY al que ya te compró lo traés de vuelta con algo simple: puntos o figuritas que junta y canjea. Le das un motivo para volver y de paso capturás sus datos y sus reseñas.\n\nFidelizar no es caro: es estar organizado. ¿Lo querés en tu local? Mandá MD 👇",
+      "slide_texts": [
+        "Cliente nuevo: cuesta 5x.",
+        "El que vuelve ya te conoce, ya confía.",
+        "Puntos o figuritas: junta, canjea, vuelve.",
+        "Sin rogar. Solo con sistema.",
+        "¿Querés esto en tu local? Mandá MD 👇"
+      ],
+      "hashtags": [
+        "#fidelizacion",
+        "#gastronomia",
+        "#clientes",
+        "#recompra",
+        "#hamburgueseria"
+      ],
       "visual_brief": "Reel: animación simple de figuritas/puntos acumulándose. Texto on-screen: 'Que vuelva no es suerte. Es sistema.'",
-      "image_url": "",
-      "status": "draft",
+      "image_url": "assets/reels/2026-07-vie-sem2/cover.png",
+      "status": "rendered",
       "approved": false,
-      "published_at": null
+      "published_at": null,
+      "assets": {
+        "html": "assets/reels/2026-07-vie-sem2/index.html",
+        "cover": "assets/reels/2026-07-vie-sem2/cover.png",
+        "png_dir": "assets/reels/2026-07-vie-sem2/png",
+        "slides": [
+          "assets/reels/2026-07-vie-sem2/png/slide-01.png",
+          "assets/reels/2026-07-vie-sem2/png/slide-02.png",
+          "assets/reels/2026-07-vie-sem2/png/slide-03.png",
+          "assets/reels/2026-07-vie-sem2/png/slide-04.png",
+          "assets/reels/2026-07-vie-sem2/png/slide-05.png"
+        ]
+      }
     },
     {
       "post_id": "2026-07-lun-sem3",
@@ -114,14 +266,38 @@
       "topic": "Reseñas de Google: por qué te hacen aparecer",
       "format": "Historia",
       "canva_template_id": "",
-      "caption": "",
-      "slide_texts": [],
-      "hashtags": ["#reseñas", "#googlebusiness", "#seolocal", "#gastronomia", "#pyme"],
+      "caption": "Dos locales iguales. Uno tiene 200 reseñas con 4.7. El otro, 3 reseñas. ¿Cuál creés que aparece primero en Google y a cuál le compra la gente?\n\nLas reseñas no son vanidad: son el combustible que te sube en el buscador y la prueba que decide al que está dudando.\n\nPedirlas no es raro si lo hacés bien (el sistema las pide solo después de cada entrega). ¿Querés que te muestre cómo? Respondé esta historia 👇",
+      "slide_texts": [
+        "Dos locales iguales.",
+        "Uno: 200 reseñas, 4.7★. El otro: 3 reseñas.",
+        "¿Cuál aparece primero? ¿A cuál le compran?",
+        "Las reseñas te suben en Google y deciden al que duda.",
+        "Se piden solas, post-entrega. Respondé 👇"
+      ],
+      "hashtags": [
+        "#reseñas",
+        "#googlebusiness",
+        "#seolocal",
+        "#gastronomia",
+        "#pyme"
+      ],
       "visual_brief": "Ficha de Google con 4.5★ y muchas reseñas vs ficha sin reseñas. Lima resaltando la diferencia de posición.",
-      "image_url": "",
-      "status": "draft",
+      "image_url": "assets/historias/2026-07-lun-sem3/cover.png",
+      "status": "rendered",
       "approved": false,
-      "published_at": null
+      "published_at": null,
+      "assets": {
+        "html": "assets/historias/2026-07-lun-sem3/index.html",
+        "cover": "assets/historias/2026-07-lun-sem3/cover.png",
+        "png_dir": "assets/historias/2026-07-lun-sem3/png",
+        "slides": [
+          "assets/historias/2026-07-lun-sem3/png/slide-01.png",
+          "assets/historias/2026-07-lun-sem3/png/slide-02.png",
+          "assets/historias/2026-07-lun-sem3/png/slide-03.png",
+          "assets/historias/2026-07-lun-sem3/png/slide-04.png",
+          "assets/historias/2026-07-lun-sem3/png/slide-05.png"
+        ]
+      }
     },
     {
       "post_id": "2026-07-mie-sem3",
@@ -131,14 +307,42 @@
       "topic": "Miedo a cobrar con tarjeta (y cómo resolverlo)",
       "format": "Carrusel",
       "canva_template_id": "",
-      "caption": "",
-      "slide_texts": [],
-      "hashtags": ["#mediosdepago", "#gastronomia", "#emprendedores", "#delivery", "#negocios"],
+      "caption": "“Las comisiones de la tarjeta me comen todo.” Es lo que dicen casi todos. Pero la cuenta real es otra.\n\nUna sola venta que perdés porque el cliente no pudo pagar como quería cuesta más que la comisión de diez ventas. Ofrecé todo: efectivo, transferencia, tarjeta, billetera. El cliente elige y vos vendés más.\n\n¿Querés cobrar fácil y sin vueltas? Mandá MD 👇",
+      "slide_texts": [
+        "El miedo a la tarjeta te está costando ventas",
+        "“Las comisiones me comen todo.” Es lo que todos dicen.",
+        "La realidad: el que quiere pagar con tarjeta y no puede, se va.",
+        "Una venta perdida cuesta más que la comisión de 10 ventas.",
+        "Ofrecé todo: efectivo, transferencia, tarjeta, billetera.",
+        "Más medios de pago = menos excusas para no comprarte.",
+        "¿Querés cobrar fácil y sin vueltas? Mandá MD 👇"
+      ],
+      "hashtags": [
+        "#mediosdepago",
+        "#gastronomia",
+        "#emprendedores",
+        "#delivery",
+        "#negocios"
+      ],
       "visual_brief": "Carrusel: el mito de las comisiones vs la realidad (más conversión con más medios de pago). Datos simples sobre negro.",
-      "image_url": "",
-      "status": "draft",
+      "image_url": "assets/carruseles/2026-07-mie-sem3/cover.png",
+      "status": "rendered",
       "approved": false,
-      "published_at": null
+      "published_at": null,
+      "assets": {
+        "html": "assets/carruseles/2026-07-mie-sem3/index.html",
+        "cover": "assets/carruseles/2026-07-mie-sem3/cover.png",
+        "png_dir": "assets/carruseles/2026-07-mie-sem3/png",
+        "slides": [
+          "assets/carruseles/2026-07-mie-sem3/png/slide-01.png",
+          "assets/carruseles/2026-07-mie-sem3/png/slide-02.png",
+          "assets/carruseles/2026-07-mie-sem3/png/slide-03.png",
+          "assets/carruseles/2026-07-mie-sem3/png/slide-04.png",
+          "assets/carruseles/2026-07-mie-sem3/png/slide-05.png",
+          "assets/carruseles/2026-07-mie-sem3/png/slide-06.png",
+          "assets/carruseles/2026-07-mie-sem3/png/slide-07.png"
+        ]
+      }
     },
     {
       "post_id": "2026-07-vie-sem3",
@@ -148,14 +352,38 @@
       "topic": "Doña Clara: rotisería de 20 años digitalizada en 2 semanas",
       "format": "Reel",
       "canva_template_id": "",
-      "caption": "",
-      "slide_texts": [],
-      "hashtags": ["#casodeexito", "#rotiseria", "#gastronomia", "#transformaciondigital", "#olavarria"],
+      "caption": "Doña Clara: rotisería de 20 años, todo a mano. En 2 semanas quedó digitalizada. 🍗\n\nCatálogo web, comandas en tablet para la cocina y cobro integrado. Hoy el pedido entra solo y la cocina lo ve al instante.\n\n¿Tenés volumen y seguís tomando todo a mano? Mandá MD 👇",
+      "slide_texts": [
+        "Rotisería. 20 años. Todo a mano.",
+        "Pedidos uno por uno: un quilombo.",
+        "En 2 semanas: catálogo web + comandas en tablet + cobro.",
+        "Hoy el pedido entra solo. La cocina lo ve al instante.",
+        "¿Tenés volumen y todo a mano? Mandá MD 👇"
+      ],
+      "hashtags": [
+        "#casodeexito",
+        "#rotiseria",
+        "#gastronomia",
+        "#transformaciondigital",
+        "#olavarria"
+      ],
       "visual_brief": "Reel antes/después: toma de pedidos manual vs catálogo web + comandas en tablet. Texto: '20 años a mano. 2 semanas para cambiarlo.'",
-      "image_url": "",
-      "status": "draft",
+      "image_url": "assets/reels/2026-07-vie-sem3/cover.png",
+      "status": "rendered",
       "approved": false,
-      "published_at": null
+      "published_at": null,
+      "assets": {
+        "html": "assets/reels/2026-07-vie-sem3/index.html",
+        "cover": "assets/reels/2026-07-vie-sem3/cover.png",
+        "png_dir": "assets/reels/2026-07-vie-sem3/png",
+        "slides": [
+          "assets/reels/2026-07-vie-sem3/png/slide-01.png",
+          "assets/reels/2026-07-vie-sem3/png/slide-02.png",
+          "assets/reels/2026-07-vie-sem3/png/slide-03.png",
+          "assets/reels/2026-07-vie-sem3/png/slide-04.png",
+          "assets/reels/2026-07-vie-sem3/png/slide-05.png"
+        ]
+      }
     },
     {
       "post_id": "2026-07-lun-sem4",
@@ -165,14 +393,38 @@
       "topic": "Seguimiento en tiempo real = el cliente no pregunta más",
       "format": "Historia",
       "canva_template_id": "",
-      "caption": "",
-      "slide_texts": [],
-      "hashtags": ["#organizacion", "#delivery", "#experienciacliente", "#gastronomia", "#sistema"],
+      "caption": "“¿Dónde está mi pedido?” Si escuchás esa pregunta diez veces por noche, no tenés un problema de cocina: tenés un problema de información.\n\nCuando el cliente ve su pedido en tiempo real (recibido → en cocina → en camino), deja de preguntar. Y vos dejás de cortar lo que estás haciendo para contestar. Menos estrés para los dos.\n\n¿Querés que tus clientes vean su pedido solos? Respondé esta historia 👇",
+      "slide_texts": [
+        "“¿Dónde está mi pedido?” x10 por noche.",
+        "No es un problema de cocina. Es de información.",
+        "Recibido → En cocina → En camino. El cliente lo ve solo.",
+        "Deja de preguntar. Vos dejás de cortar todo para contestar.",
+        "Menos estrés para los dos. Respondé 👇"
+      ],
+      "hashtags": [
+        "#organizacion",
+        "#delivery",
+        "#experienciacliente",
+        "#gastronomia",
+        "#sistema"
+      ],
       "visual_brief": "Pantalla de tracking del pedido (recibido → en cocina → en camino). Texto: 'Menos -¿dónde está mi pedido?-, menos estrés.'",
-      "image_url": "",
-      "status": "draft",
+      "image_url": "assets/historias/2026-07-lun-sem4/cover.png",
+      "status": "rendered",
       "approved": false,
-      "published_at": null
+      "published_at": null,
+      "assets": {
+        "html": "assets/historias/2026-07-lun-sem4/index.html",
+        "cover": "assets/historias/2026-07-lun-sem4/cover.png",
+        "png_dir": "assets/historias/2026-07-lun-sem4/png",
+        "slides": [
+          "assets/historias/2026-07-lun-sem4/png/slide-01.png",
+          "assets/historias/2026-07-lun-sem4/png/slide-02.png",
+          "assets/historias/2026-07-lun-sem4/png/slide-03.png",
+          "assets/historias/2026-07-lun-sem4/png/slide-04.png",
+          "assets/historias/2026-07-lun-sem4/png/slide-05.png"
+        ]
+      }
     },
     {
       "post_id": "2026-07-mie-sem4",
@@ -182,14 +434,42 @@
       "topic": "De la casa al local: qué sistema necesitás para escalar",
       "format": "Carrusel",
       "canva_template_id": "",
-      "caption": "",
-      "slide_texts": [],
-      "hashtags": ["#emprendedores", "#gastronomia", "#escalar", "#negocios", "#hamburgueseria"],
+      "caption": "Pasar de la casa al local no es solo conseguir un espacio. Es tener los sistemas para que el volumen no te tape.\n\nGuardá este carrusel con lo que sí o sí necesitás antes de dar el salto. ¿Estás por hacerlo? Te armamos el sistema. Mandá MD 👇",
+      "slide_texts": [
+        "¿Pasás de la casa al local? Esto es lo que necesitás",
+        "Pedidos: que entren ordenados, no en 3 chats distintos.",
+        "Cocina: una pantalla con lo que hay que hacer, en orden.",
+        "Cobro: varios medios de pago, sin vueltas.",
+        "Presencia: aparecer en Google el día que abrís, no 6 meses después.",
+        "Fidelización: que el cliente del barrio vuelva, no que pruebe una vez.",
+        "¿Estás por dar el salto? Mandá MD 👇"
+      ],
+      "hashtags": [
+        "#emprendedores",
+        "#gastronomia",
+        "#escalar",
+        "#negocios",
+        "#hamburgueseria"
+      ],
       "visual_brief": "Carrusel: checklist de lo que cambia al pasar de casa a local (pedidos, cocina, fidelización, presencia). Tilde lima en cada ítem.",
-      "image_url": "",
-      "status": "draft",
+      "image_url": "assets/carruseles/2026-07-mie-sem4/cover.png",
+      "status": "rendered",
       "approved": false,
-      "published_at": null
+      "published_at": null,
+      "assets": {
+        "html": "assets/carruseles/2026-07-mie-sem4/index.html",
+        "cover": "assets/carruseles/2026-07-mie-sem4/cover.png",
+        "png_dir": "assets/carruseles/2026-07-mie-sem4/png",
+        "slides": [
+          "assets/carruseles/2026-07-mie-sem4/png/slide-01.png",
+          "assets/carruseles/2026-07-mie-sem4/png/slide-02.png",
+          "assets/carruseles/2026-07-mie-sem4/png/slide-03.png",
+          "assets/carruseles/2026-07-mie-sem4/png/slide-04.png",
+          "assets/carruseles/2026-07-mie-sem4/png/slide-05.png",
+          "assets/carruseles/2026-07-mie-sem4/png/slide-06.png",
+          "assets/carruseles/2026-07-mie-sem4/png/slide-07.png"
+        ]
+      }
     },
     {
       "post_id": "2026-07-vie-sem4",
@@ -199,14 +479,38 @@
       "topic": "Figuritas y puntos: fidelización simple que funciona",
       "format": "Reel",
       "canva_template_id": "",
-      "caption": "",
-      "slide_texts": [],
-      "hashtags": ["#fidelizacion", "#gastronomia", "#clientes", "#hamburgueseria", "#recompra"],
+      "caption": "Fidelizar no es caro: es estar organizado. 🎟️\n\nNada de apps caras ni descuentos que te fundan. Un sistema simple de puntos o figuritas: el cliente junta con cada compra y canjea por algo tuyo. Vuelve, y de paso dejás capturados sus datos y sus reseñas.\n\n¿Lo querés en tu local? Mandá MD 👇",
+      "slide_texts": [
+        "Fidelizar no es caro.",
+        "No necesitás una app cara ni descuentos que funden.",
+        "Puntos o figuritas: junta con cada compra, canjea por lo tuyo.",
+        "Le das motivo para volver. Capturás datos y reseñas.",
+        "¿Lo querés en tu local? Mandá MD 👇"
+      ],
+      "hashtags": [
+        "#fidelizacion",
+        "#gastronomia",
+        "#clientes",
+        "#hamburgueseria",
+        "#recompra"
+      ],
       "visual_brief": "Reel: cliente escaneando/sumando soles y canjeando un combo gratis. Texto: 'Fidelizar no es caro. Es estar organizado.'",
-      "image_url": "",
-      "status": "draft",
+      "image_url": "assets/reels/2026-07-vie-sem4/cover.png",
+      "status": "rendered",
       "approved": false,
-      "published_at": null
+      "published_at": null,
+      "assets": {
+        "html": "assets/reels/2026-07-vie-sem4/index.html",
+        "cover": "assets/reels/2026-07-vie-sem4/cover.png",
+        "png_dir": "assets/reels/2026-07-vie-sem4/png",
+        "slides": [
+          "assets/reels/2026-07-vie-sem4/png/slide-01.png",
+          "assets/reels/2026-07-vie-sem4/png/slide-02.png",
+          "assets/reels/2026-07-vie-sem4/png/slide-03.png",
+          "assets/reels/2026-07-vie-sem4/png/slide-04.png",
+          "assets/reels/2026-07-vie-sem4/png/slide-05.png"
+        ]
+      }
     }
   ]
 }

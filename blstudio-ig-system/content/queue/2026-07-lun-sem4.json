@@ -22,8 +22,20 @@
     "#sistema"
   ],
   "visual_brief": "Pantalla de tracking del pedido (recibido → en cocina → en camino). Texto: 'Menos -¿dónde está mi pedido?-, menos estrés.'",
-  "image_url": "",
-  "status": "generated",
+  "image_url": "assets/historias/2026-07-lun-sem4/cover.png",
+  "status": "rendered",
   "approved": false,
-  "published_at": null
+  "published_at": null,
+  "assets": {
+    "html": "assets/historias/2026-07-lun-sem4/index.html",
+    "cover": "assets/historias/2026-07-lun-sem4/cover.png",
+    "png_dir": "assets/historias/2026-07-lun-sem4/png",
+    "slides": [
+      "assets/historias/2026-07-lun-sem4/png/slide-01.png",
+      "assets/historias/2026-07-lun-sem4/png/slide-02.png",
+      "assets/historias/2026-07-lun-sem4/png/slide-03.png",
+      "assets/historias/2026-07-lun-sem4/png/slide-04.png",
+      "assets/historias/2026-07-lun-sem4/png/slide-05.png"
+    ]
+  }
 }

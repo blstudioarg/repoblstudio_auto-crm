@@ -1,5 +1,5 @@
 {
-  "_note": "Registrar acá los IDs reales de Canva cuando se creen los templates (Fase 2). Los valores PENDIENTE son placeholders.",
+  "_note": "Los templates de Canva se reemplazaron por el 'Carrusel Studio' (HTML→PNG) en automation/render/. Estos IDs quedan como placeholder histórico; no se usan en el flujo actual.",
   "historia": {
     "p1-seo": "PENDIENTE",
     "p2-org": "PENDIENTE",

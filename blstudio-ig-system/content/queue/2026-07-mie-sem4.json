@@ -24,8 +24,22 @@
     "#hamburgueseria"
   ],
   "visual_brief": "Carrusel: checklist de lo que cambia al pasar de casa a local (pedidos, cocina, fidelización, presencia). Tilde lima en cada ítem.",
-  "image_url": "",
-  "status": "generated",
+  "image_url": "assets/carruseles/2026-07-mie-sem4/cover.png",
+  "status": "rendered",
   "approved": false,
-  "published_at": null
+  "published_at": null,
+  "assets": {
+    "html": "assets/carruseles/2026-07-mie-sem4/index.html",
+    "cover": "assets/carruseles/2026-07-mie-sem4/cover.png",
+    "png_dir": "assets/carruseles/2026-07-mie-sem4/png",
+    "slides": [
+      "assets/carruseles/2026-07-mie-sem4/png/slide-01.png",
+      "assets/carruseles/2026-07-mie-sem4/png/slide-02.png",
+      "assets/carruseles/2026-07-mie-sem4/png/slide-03.png",
+      "assets/carruseles/2026-07-mie-sem4/png/slide-04.png",
+      "assets/carruseles/2026-07-mie-sem4/png/slide-05.png",
+      "assets/carruseles/2026-07-mie-sem4/png/slide-06.png",
+      "assets/carruseles/2026-07-mie-sem4/png/slide-07.png"
+    ]
+  }
 }

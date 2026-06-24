@@ -14,10 +14,28 @@
     "Si no estás ahí, no existís para ellos.",
     "Se arregla en días. Respondé esta historia 👇"
   ],
-  "hashtags": ["#gastronomia", "#hamburgueseria", "#googlemaps", "#seolocal", "#pyme"],
+  "hashtags": [
+    "#gastronomia",
+    "#hamburgueseria",
+    "#googlemaps",
+    "#seolocal",
+    "#pyme"
+  ],
   "visual_brief": "Captura de una búsqueda en Google Maps 'hamburguesas [ciudad]' con un local que NO aparece. Fondo negro, flecha lima señalando el vacío. Texto del slide en blanco bold + palabra clave en lima.",
-  "image_url": "",
-  "status": "generated",
+  "image_url": "assets/historias/2026-07-lun-sem1/cover.png",
+  "status": "rendered",
   "approved": false,
-  "published_at": null
+  "published_at": null,
+  "assets": {
+    "html": "assets/historias/2026-07-lun-sem1/index.html",
+    "cover": "assets/historias/2026-07-lun-sem1/cover.png",
+    "png_dir": "assets/historias/2026-07-lun-sem1/png",
+    "slides": [
+      "assets/historias/2026-07-lun-sem1/png/slide-01.png",
+      "assets/historias/2026-07-lun-sem1/png/slide-02.png",
+      "assets/historias/2026-07-lun-sem1/png/slide-03.png",
+      "assets/historias/2026-07-lun-sem1/png/slide-04.png",
+      "assets/historias/2026-07-lun-sem1/png/slide-05.png"
+    ]
+  }
 }

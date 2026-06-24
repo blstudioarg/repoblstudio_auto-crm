@@ -22,11 +22,23 @@
     "#recompra"
   ],
   "visual_brief": "Reel: cliente escaneando/sumando soles y canjeando un combo gratis. Texto: 'Fidelizar no es caro. Es estar organizado.'",
-  "image_url": "",
-  "status": "generated",
+  "image_url": "assets/reels/2026-07-vie-sem4/cover.png",
+  "status": "rendered",
   "approved": false,
   "published_at": null,
   "hook": "Fidelizar no es caro. Es estar organizado.",
   "voiceover": "No hace falta una app cara ni descuentos que te fundan. Un sistema simple de puntos o figuritas alcanza: el cliente junta con cada compra y canjea por algo tuyo. Le das un motivo para volver y de paso capturás sus datos y sus reseñas. Fidelizar bien no te saca plata: te trae al cliente de vuelta.",
-  "cta": "Mandá MD y lo armamos para tu local."
+  "cta": "Mandá MD y lo armamos para tu local.",
+  "assets": {
+    "html": "assets/reels/2026-07-vie-sem4/index.html",
+    "cover": "assets/reels/2026-07-vie-sem4/cover.png",
+    "png_dir": "assets/reels/2026-07-vie-sem4/png",
+    "slides": [
+      "assets/reels/2026-07-vie-sem4/png/slide-01.png",
+      "assets/reels/2026-07-vie-sem4/png/slide-02.png",
+      "assets/reels/2026-07-vie-sem4/png/slide-03.png",
+      "assets/reels/2026-07-vie-sem4/png/slide-04.png",
+      "assets/reels/2026-07-vie-sem4/png/slide-05.png"
+    ]
+  }
 }

@@ -1,37 +1,68 @@
 # blstudio-ig-system
 
-Sistema de producción y publicación de contenido para Instagram (@blstudioarg2026) de BLStudio. Convierte la estrategia de contenido en posts reales de forma semi-automatizada: **Claude genera → Juan aprueba → n8n publica via Meta Graph API**.
+Sistema de producción y publicación de contenido para Instagram (@blstudioarg2026) de BLStudio. Convierte la estrategia de contenido en posts reales de forma semi-automatizada: **Claude genera el copy → un generador arma el visual con la identidad de marca → Juan aprueba → n8n publica vía Meta Graph API**.
 
-La fuente de verdad es el **PROJECT BRIEF** en la bóveda de Obsidian (`BLStudio — Bóveda/BLStudio — PROJECT BRIEF.md`). Esta carpeta es la implementación.
+La fuente de verdad estratégica es el **PROJECT BRIEF** en la bóveda de Obsidian (`BLStudio — Bóveda/`). Esta carpeta es la implementación técnica.
 
 ## Estructura
 
 ```
 blstudio-ig-system/
-├── docs/            ← arquitectura, design system, estrategia, guía Meta
-├── design/          ← brand tokens + referencia de templates de Canva
-├── content/         ← prompts, calendario mensual, queue de posts
-└── automation/      ← workflows de n8n + config de Meta
+├── docs/            ← arquitectura, design system, estrategia, guía Meta, pipeline de render
+├── design/          ← brand tokens + nota de templates
+├── content/         ← prompts, calendario mensual, queue de 12 posts (copy)
+├── automation/
+│   ├── render/      ← generador de visuales (HTML Studio) + render a PNG  ← NUEVO
+│   ├── nanobanana/  ← imágenes IA hero (Nano Banana Pro / Gemini)
+│   ├── meta/        ← config de Meta Graph API
+│   └── n8n/         ← workflows de publicación (imagen, carrusel, reel, trigger)
+└── assets/
+    ├── historias/<post_id>/   ← index.html + cover.png + png/slide-NN.png
+    ├── carruseles/<post_id>/  ← idem
+    ├── reels/<post_id>/       ← idem (cover + storyboard de texto)
+    └── images/<post_id>-<role>.b64  ← fotos IA embebibles (cover/cta)
 ```
 
-## Cómo se usa (flujo semanal)
+## Flujo de producción (Carrusel Studio)
 
-1. Nueva sesión de Cowork. Prompt: *"Generar los 3 posts de la semana N del calendario julio-2026.json"*.
-2. Claude genera los JSON (en `content/queue/`) y arma/exporta los visuales.
-3. Juan revisa caption + imagen y aprueba.
-4. Se publican con los workflows de `automation/n8n/` (manual por ahora; automático en Fase 7).
+1. El copy de cada post vive en `content/queue/<post_id>.json` (caption, slide_texts, hashtags, visual_brief).
+2. `automation/render/build.py` lee la queue y genera un **HTML autodescargable** por post con la identidad de marca (negro #0a0a0a + lima #a8ff3e, Space Grotesk / Inter / IBM Plex Mono, fuentes embebidas → funciona offline). Tres layouts: Historia/Reel 1080×1920, Carrusel 1080×1350.
+3. `automation/render/render.py` rasteriza cada slide a **PNG** (HTML → WeasyPrint → PDF → PyMuPDF), sin necesidad de navegador.
+4. `automation/nanobanana/gen_images.py` genera las **fotos IA hero** (portadas y cierres) con Nano Banana Pro y las deja en `assets/images/` como `.b64`; al volver a correr build+render, quedan embebidas.
+5. Juan revisa caption + slides y aprueba (`status: approved`).
+6. n8n publica en el horario del calendario (`content/calendar/julio-2026.json`).
+
+Detalle completo en `docs/render-pipeline.md`.
+
+## Cómo regenerar todo
+
+```bash
+# 1) (opcional) imágenes IA hero — requiere la API key de Nano Banana Pro (Gemini)
+NANOBANANA_API_KEY=tu_key python3 automation/nanobanana/gen_images.py
+
+# 2) armar los HTML de los 12 posts
+python3 automation/render/build.py
+
+# 3) renderizar todos los slides a PNG
+python3 automation/render/render.py
+```
+
+Para un solo post: pasar el `post_id`, ej. `python3 automation/render/build.py 2026-07-vie-sem3`.
 
 ## Estado de las fases
 
 | Fase | Qué | Estado |
 |---|---|---|
-| 0 | Setup Meta + n8n + Canva | ⏳ Manual (tuyo) — requiere cuentas/tokens |
+| 0 | Setup Meta + n8n | ⏳ Manual (tuyo) — requiere cuentas/tokens |
 | 1 | Estructura + design system | ✅ Hecha |
-| 2 | Templates de Canva | ➖ Reemplazada por HTML (Carrusel Studio) |
-| 3 | Primer post end-to-end | ◐ Carrusel del miércoles (sem 1) hecho con imágenes IA |
-| 4 | Workflows n8n (imagen, carrusel, reel) | ✅ Hechos |
-| 5 | Batch semanal | ✅ Mes completo: 12 posts (copy) en `content/queue/` |
-| 6 | Imágenes IA (NanoBanana) | ✅ Integrada en `automation/nanobanana/` (probada) |
+| 2 | Visuales de marca | ✅ Reemplazado Canva por **Carrusel Studio** (HTML→PNG), generador propio |
+| 3 | Primer post end-to-end | ✅ Carrusel mié-sem1 con fotos IA |
+| 4 | Workflows n8n (imagen, carrusel, reel, trigger) | ✅ Hechos |
+| 5 | Batch del mes | ✅ **12 posts**: copy + HTML + 68 PNG renderizados |
+| 6 | Imágenes IA (Nano Banana Pro) | ◐ Pipeline listo; mié-sem1 con foto. Resto: correr `gen_images.py` con la API key |
 | 7 | Trigger automático | ✅ Template `workflow-weekly-trigger.json` |
 
-## 
+## Lo único que falta para 100%
+
+- **Fotos IA en las 11 portadas restantes:** correr `gen_images.py` con `NANOBANANA_API_KEY` y volver a build+render (1 comando, todo cableado).
+- **Publicación real:** cargar tokens de Meta + activar n8n (Fase 0, pasos que dependen de tus cuentas).

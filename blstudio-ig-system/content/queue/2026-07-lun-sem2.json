@@ -22,8 +22,20 @@
     "#pyme"
   ],
   "visual_brief": "Split: izquierda chat de WhatsApp desbordado, derecha panel de pedidos limpio del sistema. Flecha lima del caos al orden.",
-  "image_url": "",
-  "status": "generated",
+  "image_url": "assets/historias/2026-07-lun-sem2/cover.png",
+  "status": "rendered",
   "approved": false,
-  "published_at": null
+  "published_at": null,
+  "assets": {
+    "html": "assets/historias/2026-07-lun-sem2/index.html",
+    "cover": "assets/historias/2026-07-lun-sem2/cover.png",
+    "png_dir": "assets/historias/2026-07-lun-sem2/png",
+    "slides": [
+      "assets/historias/2026-07-lun-sem2/png/slide-01.png",
+      "assets/historias/2026-07-lun-sem2/png/slide-02.png",
+      "assets/historias/2026-07-lun-sem2/png/slide-03.png",
+      "assets/historias/2026-07-lun-sem2/png/slide-04.png",
+      "assets/historias/2026-07-lun-sem2/png/slide-05.png"
+    ]
+  }
 }

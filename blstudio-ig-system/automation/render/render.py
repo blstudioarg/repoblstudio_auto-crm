@@ -2,19 +2,15 @@
 """
 BLStudio — Renderiza los visuales a PNG (sin navegador).
 
-Pipeline 100% pip (offline-friendly): HTML -> WeasyPrint -> PDF -> PyMuPDF -> PNG.
+Pipeline 100% pip: HTML -> WeasyPrint -> PDF -> PyMuPDF -> PNG.
 Reusa los mismos constructores de slides que build.py, así que el PNG es
 idéntico al HTML interactivo.
 
 Uso:
-    python3 automation/render/render.py            # renderiza los 12
+    python3 automation/render/render.py            # los 12
     python3 automation/render/render.py 2026-07-vie-sem3
-
-Salida por post:
-    assets/<tipo>/<post_id>/png/slide-01.png ...
-    assets/<tipo>/<post_id>/cover.png   (copia del slide 1, para image_url)
 """
-import os, sys, glob, json, shutil
+import os, sys, glob, json
 import weasyprint, fitz
 import build
 
@@ -22,6 +18,12 @@ ROOT = build.ROOT
 QUEUE = build.QUEUE
 ASSETS = build.ASSETS
 FORMAT_DIR = build.FORMAT_DIR
+
+
+def _write(path, data: bytes):
+    # open('wb') trunca sin unlink -> funciona en carpetas montadas
+    with open(path, "wb") as f:
+        f.write(data)
 
 
 def render_post(post):
@@ -34,19 +36,16 @@ def render_post(post):
     outdir = os.path.join(ASSETS, FORMAT_DIR[post["format"]], pid)
     pngdir = os.path.join(outdir, "png")
     os.makedirs(pngdir, exist_ok=True)
-    # limpia PNG viejos
-    for old in glob.glob(os.path.join(pngdir, "slide-*.png")):
-        os.remove(old)
     n = 0
     for i in range(doc.page_count):
         page = doc[i]
         scale = w / page.rect.width
         pix = page.get_pixmap(matrix=fitz.Matrix(scale, scale), alpha=False)
-        out = os.path.join(pngdir, f"slide-{i+1:02d}.png")
-        pix.save(out)
-        n += 1
+        data = pix.tobytes("png")
+        _write(os.path.join(pngdir, f"slide-{i+1:02d}.png"), data)
         if i == 0:
-            shutil.copyfile(out, os.path.join(outdir, "cover.png"))
+            _write(os.path.join(outdir, "cover.png"), data)
+        n += 1
     doc.close()
     return n, pngdir
 
@@ -61,9 +60,9 @@ def main():
             continue
         n, pngdir = render_post(post)
         total_png += n
-        print(f"OK {post['post_id']:18s} {post['format']:9s} {n} PNG -> "
-              f"{os.path.relpath(pngdir, ROOT)}")
-    print(f"\n{total_png} PNG renderizado(s).")
+        print("OK %-18s %-9s %d PNG -> %s" % (
+            post["post_id"], post["format"], n, os.path.relpath(pngdir, ROOT)))
+    print("\n%d PNG renderizado(s)." % total_png)
 
 
 if __name__ == "__main__":
