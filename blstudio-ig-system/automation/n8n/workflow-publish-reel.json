@@ -14,12 +14,41 @@
     },
     {
       "parameters": {
+        "method": "GET",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/posts?status=eq.approved&format=eq.Reel&order=date.asc&limit=1",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $env.SUPABASE_SERVICE_KEY }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.SUPABASE_SERVICE_KEY }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "read-approved-post",
+      "name": "Leer post aprobado (Supabase)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        360,
+        320
+      ],
+      "notes": "Trae el próximo post APROBADO de formato Reel desde Supabase (status=approved, ordenado por fecha). Devuelve date, caption, image_url/video_url. Requiere las env vars SUPABASE_URL y SUPABASE_SERVICE_KEY en n8n. Si no hay ninguno aprobado, no hay nada para publicar."
+    },
+    {
+      "parameters": {
         "assignments": {
           "assignments": [
             {
               "id": "a1",
               "name": "post_id",
-              "value": "2026-07-vie-sem1",
+              "value": "={{ $('Leer post aprobado (Supabase)').item.json.date }}",
               "type": "string"
             },
             {
@@ -31,13 +60,13 @@
             {
               "id": "a3",
               "name": "video_url",
-              "value": "https://REEMPLAZAR-con-URL-publica-del-video.mp4",
+              "value": "={{ $('Leer post aprobado (Supabase)').item.json.video_url }}",
               "type": "string"
             },
             {
               "id": "a4",
               "name": "caption",
-              "value": "Caption del reel + hashtags",
+              "value": "={{ $('Leer post aprobado (Supabase)').item.json.caption }}",
               "type": "string"
             },
             {
@@ -58,7 +87,7 @@
         400,
         320
       ],
-      "notes": "n8n Cloud: pegá tu token en 'access_token'. ig_user_id ya tiene el ID. Completá image_url/video_url/caption del post aprobado."
+      "notes": "Mapea el post aprobado leído de Supabase (post_id=date, caption/video_url). Sólo cargá a mano el access_token de Meta (60 días) y verificá ig_user_id."
     },
     {
       "parameters": {
@@ -289,7 +318,7 @@
       "main": [
         [
           {
-            "node": "Datos del post",
+            "node": "Leer post aprobado (Supabase)",
             "type": "main",
             "index": 0
           }
@@ -385,6 +414,17 @@
         [
           {
             "node": "Chequear estado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leer post aprobado (Supabase)": {
+      "main": [
+        [
+          {
+            "node": "Datos del post",
             "type": "main",
             "index": 0
           }

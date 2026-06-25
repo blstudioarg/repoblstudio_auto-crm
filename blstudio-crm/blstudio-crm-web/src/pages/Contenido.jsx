@@ -79,7 +79,7 @@ export default function Contenido() {
           <div className="row-list">
             {filtered.map(p => (
               <div key={p.id} className="lrow" style={{ gridTemplateColumns: '40px 1fr auto auto', cursor: 'pointer' }} onClick={() => setOpen(p)}>
-                <div className="accent bold">D{p.dia_narrativo}</div>
+                <PostImage url={p.image_url} fallback={<div className="accent bold">D{p.dia_narrativo}</div>} />
                 <div>
                   <div className="nm">{p.topic}</div>
                   <div className="mut">{p.hook.slice(0, 70)}…</div>
@@ -101,6 +101,32 @@ function dotColor(s) {
   return { draft: '#555', copy_ready: '#8ab4ff', image_ready: '#c79bff', approved: '#a8ff3e', scheduled: '#ffcf5c', published: '#7dffa8' }[s] || '#555'
 }
 
+// Muestra la imagen del post con fallback si la URL no carga (ej. rutas locales).
+function PostImage({ url, alt, full, fallback }) {
+  const [err, setErr] = useState(false)
+  const ok = url && !err
+  const isLocal = url && !/^https?:\/\//.test(url)
+  if (!full) {
+    return ok && !isLocal
+      ? <img src={url} alt="" onError={() => setErr(true)}
+          style={{ width: 34, height: 42, objectFit: 'cover', borderRadius: 6, border: '1px solid var(--line)' }} />
+      : fallback
+  }
+  if (ok && !isLocal) {
+    return <img src={url} alt={alt} onError={() => setErr(true)}
+      style={{ width: '100%', borderRadius: 12, marginBottom: 18, border: '1px solid var(--line)', display: 'block' }} />
+  }
+  return (
+    <div style={{ width: '100%', aspectRatio: '4 / 5', borderRadius: 12, marginBottom: 18,
+      border: '1px dashed var(--line)', background: 'var(--bg-2)', display: 'grid', placeItems: 'center',
+      color: 'var(--text-3)', fontSize: 13, textAlign: 'center', padding: 16 }}>
+      {isLocal
+        ? <span>La imagen existe pero está en ruta local.<br />Falta subirla al bucket <b>post-assets</b> para tener URL pública.</span>
+        : <span>Sin imagen todavía.<br />Se genera con NanoBanana y se sube al bucket; al guardar la URL pública aparece acá.</span>}
+    </div>
+  )
+}
+
 function PostModal({ post, onClose, update, live }) {
   const next = FLOW[Math.min(FLOW.indexOf(post.status) + 1, FLOW.length - 1)]
   return (
@@ -112,6 +138,9 @@ function PostModal({ post, onClose, update, live }) {
         <Badge kind="pilar">Pilar {post.pilar}</Badge>
         <Badge kind="arc">{post.date}</Badge>
       </div>
+
+      <div className="muted-3 fz-12" style={{ textTransform: 'uppercase', letterSpacing: '.08em', marginBottom: 6 }}>Imagen</div>
+      <PostImage url={post.image_url} alt={post.topic} full />
 
       <div className="muted-3 fz-12" style={{ textTransform: 'uppercase', letterSpacing: '.08em', marginBottom: 6 }}>Hook</div>
       <div style={{ fontSize: 17, fontWeight: 700, lineHeight: 1.35, marginBottom: 18 }}>“{post.hook}”</div>
